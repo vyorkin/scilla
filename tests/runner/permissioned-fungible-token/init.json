@@ -1,0 +1,37 @@
+[
+    { 
+        "vname" : "_scilla_version",
+        "type" : "Uint32",
+        "value" : "0"
+    },
+    {
+        "vname" : "token_issuer",
+        "type" : "ByStr20",
+        "value" : "0xf8c429e096abaabf43257728894d88f1142501a1"
+    },
+    {
+        "vname" : "total_tokens",
+        "type" : "Uint128",
+        "value" : "900000"
+    },
+    {
+        "vname" : "token_symbol",
+        "type" : "String",
+        "value" : "PTN"
+    },
+    {
+        "vname" : "token_name",
+        "type" : "String",
+        "value" : "Proton"
+    },
+    {
+        "vname" : "_creation_block",
+        "type" : "BNum",
+        "value" : "1"
+    },
+    {
+         "vname" : "_this_address",
+         "type" : "ByStr20",
+         "value" : "0xabfeccdc9012345678901234567890f777567890"
+    }
+]

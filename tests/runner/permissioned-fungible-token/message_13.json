@@ -1,0 +1,17 @@
+{
+    "_tag": "Approve",
+    "_amount": "0",
+    "_sender" : "0x761168561ccabd103aa1ec7863dc09f28793b7ba",
+    "params": [
+        {
+            "vname": "spender",
+            "type": "ByStr20",
+            "value": "0xf8c429e096abaabf43257728894d88f1142501a1"
+        },
+        {
+            "vname" : "value",
+            "type" : "Uint128",
+            "value" : "100000"
+        }
+    ]
+}

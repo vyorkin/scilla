@@ -1,0 +1,44 @@
+[
+    {
+        "vname": "_balance",
+        "type": "Uint128",
+        "value": "0"
+    },
+    {
+        "vname": "token_balances",
+        "type": "Map (ByStr20) (Uint128)",
+        "value": [
+            {
+                "key": "0xf8c429e096abaabf43257728894d88f1142501a1",
+                "val": "900000"
+            }
+        ]
+    },
+    {
+        "vname": "token_allowances",
+        "type": "Map (ByStr20) (Map (ByStr20) (Uint128))",
+        "value": []
+    },
+    {
+        "vname": "registry",
+        "type": "Map (ByStr20) (String)",
+        "value": [
+            {
+                "key": "0xa3afe2c181e64e8e46df65fe71627263173d8f4a",
+                "val": "S002"
+            },
+            {
+                "key": "0x1f88fe2c3ff4bf4a90567fc9d6cef83092b1c847",
+                "val": "S004"
+            },
+            {
+                "key": "0xf54fd80c0c490b75f3588c9982c38e8652831888",
+                "val": "S003"
+            },
+            {
+                "key": "0x761168561ccabd103aa1ec7863dc09f28793b7ba",
+                "val": "S001"
+            }
+        ]
+    }
+]

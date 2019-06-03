@@ -1,0 +1,17 @@
+{
+    "_tag": "AddMember",
+    "_amount": "0",
+    "_sender" : "0xf8c429e096abaabf43257728894d88f1142501a1",
+    "params": [
+        {
+            "vname": "member_address",
+            "type": "ByStr20",
+            "value": "0xa3afe2c181e64e8e46df65fe71627263173d8f4a"
+        },
+        {
+            "vname" : "description",
+            "type" : "String",
+            "value" : "S002"
+        }
+    ]
+}
