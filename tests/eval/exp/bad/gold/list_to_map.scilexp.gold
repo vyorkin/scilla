@@ -1,7 +1,7 @@
 {
   "errors": [
     {
-      "error_message": "Syntax error.",
+      "error_message": "Syntax parsing error.\n",
       "start_location": {
         "file": "eval/exp/bad/list_to_map.scilexp",
         "line": 7,

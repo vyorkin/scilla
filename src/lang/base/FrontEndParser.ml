@@ -21,7 +21,7 @@ open Core
 open Lexing
 open ErrorUtils
 open MonadUtil
-open ParserMessages
+open ParserFaults
 
 module MInter = ScillaParser.MenhirInterpreter
 

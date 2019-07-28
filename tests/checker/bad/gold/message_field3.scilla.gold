@@ -1,7 +1,7 @@
 {
   "errors": [
     {
-      "error_message": "Syntax error.",
+      "error_message": "Syntax parsing error.\n",
       "start_location": {
         "file": "checker/bad/message_field3.scilla",
         "line": 15,
