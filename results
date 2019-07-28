@@ -1,0 +1,480 @@
+hugh@hutop:~/dev/scilla$ make test          
+dune exec -- menhir --compile-errors src/lang/base/problems.messages src/lang/base/ScillaParser.mly > src/lang/base/ParserMessages.ml
+File "src/lang/base/ScillaParser.mly", line 108, characters 7-12:
+Warning: the token CATCH is unused.
+File "src/lang/base/ScillaParser.mly", line 107, characters 7-10:
+Warning: the token TRY is unused.
+Warning: 3 states have shift/reduce conflicts.
+Warning: 7 shift/reduce conflicts were arbitrarily resolved.
+Read 174 sample input sentences and 174 error messages.
+dune build --profile dev @install
+dune build tests/testsuite.exe
+ulimit -s 128; dune exec tests/testsuite.exe -- -print-diff true
+....................F............FFFF...................................................................................................................................................................................F...........................................................................................................................................................................................................................................................................................................................................................................................................................F....F...FF....F.....................FFF........................................................................................................................................................................................................................................................................................................................................................................
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:40:bad_transition_param.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 32995, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:40:bad_transition_param.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/bad_transition_param.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/bad_transition_param.scilla",
+ |        "line": 6,
+ |        "column": 35
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:39:bad_param.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#02.log", line 36584, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:39:bad_param.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/bad_param.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/bad_param.scilla",
+ |        "line": 3,
+ |        "column": 35
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:38:balance_field.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 32862, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:38:balance_field.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/balance_field.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/balance_field.scilla",
+ |        "line": 5,
+ |        "column": 15
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:16:message_field3.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 31133, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:16:message_field3.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/message_field3.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/message_field3.scilla",
+ |        "line": 15,
+ |        "column": 58
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:11:map_value_function.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#02.log", line 34701, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:11:map_value_function.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/map_value_function.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/map_value_function.scilla",
+ |        "line": 7,
+ |        "column": 26
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:10:bad_map_key_5.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 30729, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:10:bad_map_key_5.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/bad_map_key_5.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/bad_map_key_5.scilla",
+ |        "line": 7,
+ |        "column": 17
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:6:bad_map_key_1.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 30489, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:6:bad_map_key_1.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/bad_map_key_1.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/bad_map_key_1.scilla",
+ |        "line": 7,
+ |        "column": 21
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:9:checker_tests:3:exptests:1:bad_fields2.scilla.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#02.log", line 34126, characters 1-1:
+Error: all_tests:9:checker_tests:3:exptests:1:bad_fields2.scilla (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/scilla-checker -cf -contractinfo -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors checker/bad/bad_fields2.scilla -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "checker/bad/bad_fields2.scilla",
+ |        "line": 6,
+ |        "column": 37
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:3:exptests:32:list_to_map.scilexp.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 8403, characters 1-1:
+Error: all_tests:3:exptests:32:list_to_map.scilexp (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/eval-runner -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors eval/exp/bad/list_to_map.scilexp -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "eval/exp/bad/list_to_map.scilexp",
+ |        "line": 7,
+ |        "column": 61
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:0:type_check_fail_tests:1:exptests:25:bad_match.scilexp.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#02.log", line 1461, characters 1-1:
+Error: all_tests:0:type_check_fail_tests:1:exptests:25:bad_match.scilexp (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/type-checker -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors typecheck/bad/bad_match.scilexp -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "typecheck/bad/bad_match.scilexp",
+ |        "line": 3,
+ |        "column": 48
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:0:type_check_fail_tests:1:exptests:24:bad_assign2.scilexp.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 1438, characters 1-1:
+Error: all_tests:0:type_check_fail_tests:1:exptests:24:bad_assign2.scilexp (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/type-checker -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors typecheck/bad/bad_assign2.scilexp -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "typecheck/bad/bad_assign2.scilexp",
+ |        "line": 1,
+ |        "column": 9
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:0:type_check_fail_tests:1:exptests:23:bad_assign.scilexp.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#02.log", line 1328, characters 1-1:
+Error: all_tests:0:type_check_fail_tests:1:exptests:23:bad_assign.scilexp (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/type-checker -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors typecheck/bad/bad_assign.scilexp -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "typecheck/bad/bad_assign.scilexp",
+ |        "line": 1,
+ |        "column": 13
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:0:type_check_fail_tests:1:exptests:22:parsing_hex_literals.scilexp.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#01.log", line 1305, characters 1-1:
+Error: all_tests:0:type_check_fail_tests:1:exptests:22:parsing_hex_literals.scilexp (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/type-checker -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors typecheck/bad/parsing_hex_literals.scilexp -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "typecheck/bad/parsing_hex_literals.scilexp",
+ |        "line": 1,
+ |        "column": 14
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+==============================================================================
+Error: all_tests:0:type_check_fail_tests:1:exptests:9:foo-expr.scilexp.
+
+File "/home/hugh/dev/scilla/_build/oUnit-all_tests-hutop#02.log", line 547, characters 1-1:
+Error: all_tests:0:type_check_fail_tests:1:exptests:9:foo-expr.scilexp (in the log).
+
+Raised at file "src/oUnitAssert.ml", line 45, characters 2-27
+Called from file "src/oUnitAssert.ml", line 285, characters 17-48
+Re-raised at file "src/oUnitAssert.ml", line 288, characters 17-24
+Called from file "src/oUnitTest.ml", line 129, characters 16-22
+Re-raised at file "src/oUnitTest.ml", line 134, characters 6-13
+Called from file "src/oUnitRunner.ml", line 46, characters 13-26
+
+Command /home/hugh/dev/scilla/bin/type-checker -libdir /home/hugh/dev/scilla/src/stdlib -jsonerrors typecheck/bad/foo-expr.scilexp -gaslimit 4002000 failed.
+
+not equal
+differences: 
+@|-1,14 +1,14 ============================================================
+ |{
+ |  "errors": [
+ |    {
+!|      "error_message": "Syntax error.\n",
+ |      "start_location": {
+ |        "file": "typecheck/bad/foo-expr.scilexp",
+ |        "line": 8,
+ |        "column": 6
+ |      },
+ |      "end_location": { "file": "", "line": 0, "column": 0 }
+ |    }
+ |  ],
+ |  "warnings": []
+ |}
+------------------------------------------------------------------------------
+Ran: 1028 tests in: 19.61 seconds.
+FAILED: Cases: 1028 Tried: 1028 Errors: 0 Failures: 14 Skip:  0 Todo: 0 Timeouts: 0.
+Makefile:38: recipe for target 'test' failed
+make: *** [test] Error 1
+

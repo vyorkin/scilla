@@ -21,32 +21,46 @@ open Core
 open Lexing
 open ErrorUtils
 open MonadUtil
+open ParserMessages
+
+module MInter = ScillaParser.MenhirInterpreter
 
 (* TODO: Use DebugMessage perr/pout instead of fprintf. *)
 let fail_err msg lexbuf =
   fail1 msg (toLoc lexbuf.lex_curr_p)
 
-let parse_lexbuf parser lexbuf filename =
+let parse_lexbuf checkpoint_starter lexbuf filename =
   lexbuf.lex_curr_p  <- { lexbuf.lex_curr_p with pos_fname = filename };
-  try
-    pure @@ parser ScillaLexer.read lexbuf
+  let supplier = MInter.lexer_lexbuf_to_supplier ScillaLexer.read lexbuf in
+  let checkpoint = checkpoint_starter lexbuf.lex_curr_p in
+  let success a = pure a in
+  let failure state_error =
+    let env = match state_error with
+    | MInter.HandlingError env -> env
+    | _ -> assert false in
+    let state_number = MInter.current_state_number env in
+    let error_message =
+      try message state_number with
+      | Caml.Not_found -> "Syntax error." in
+    fail_err error_message lexbuf in
+  try MInter.loop_handle success failure supplier checkpoint
   with
   | ScillaLexer.Error msg -> fail_err ("Lexical error: " ^ msg) lexbuf
   | Syntax.SyntaxError (msg, loc) -> fail1 ("Syntax error: " ^ msg) loc
   | ScillaParser.Error -> fail_err "Syntax error." lexbuf
 
-let parse_file parser filename  =
+let parse_file checkpoint_starter filename  =
   In_channel.with_file filename ~f:(fun inx ->
     let lexbuf = Lexing.from_channel inx in
-    parse_lexbuf parser lexbuf filename)
+    parse_lexbuf checkpoint_starter lexbuf filename)
 
-let parse_string parser s =
+let parse_string checkpoint_starter s =
   let lexbuf = Lexing.from_string s in
-  parse_lexbuf parser lexbuf "Prelude"
+  parse_lexbuf checkpoint_starter lexbuf "Prelude"
 
 let parse_type s =
-  parse_string ScillaParser.type_term s
+  parse_string ScillaParser.Incremental.type_term s
 
 let parse_expr s =
-  parse_string ScillaParser.exp_term s
+  parse_string ScillaParser.Incremental.exp_term s
 

@@ -1,0 +1,2307 @@
+type_term: CID LPAREN TID WITH
+##
+## Ends in an error in state: 71.
+##
+## targ -> LPAREN typ . RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+## typ -> typ . TARROW typ [ TARROW RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN typ
+##
+
+Syntax parsing error.
+
+type_term: CID LPAREN WITH
+##
+## Ends in an error in state: 52.
+##
+## targ -> LPAREN . typ RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+type_term: CID MAP CID UNDERSCORE
+##
+## Ends in an error in state: 27.
+##
+## targ -> MAP t_map_key . t_map_value [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## MAP t_map_key
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 44, spurious reduction of production t_map_key -> scid 
+##
+
+Syntax parsing error.
+
+type_term: CID MAP WITH
+##
+## Ends in an error in state: 20.
+##
+## targ -> MAP . t_map_key t_map_value [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## MAP
+##
+
+Syntax parsing error.
+
+type_term: CID PERIOD WITH
+##
+## Ends in an error in state: 23.
+##
+## scid -> CID PERIOD . CID [ UNDERSCORE TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN ID FIELD EQ EOF END CONTRACT COMMA CID BAR ARROW ]
+##
+## The known suffix of the stack is as follows:
+## CID PERIOD
+##
+
+Syntax parsing error.
+
+type_term: CID TID WITH
+##
+## Ends in an error in state: 65.
+##
+## list(targ) -> targ . list(targ) [ TARROW RPAREN RBRACE EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## targ
+##
+
+Syntax parsing error.
+
+type_term: CID UNDERSCORE
+##
+## Ends in an error in state: 64.
+##
+## typ -> scid . list(targ) [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## scid
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+##
+
+Syntax parsing error.
+
+type_term: CID WITH
+##
+## Ends in an error in state: 22.
+##
+## scid -> CID . [ UNDERSCORE TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN ID FIELD EQ EOF END CONTRACT COMMA CID BAR ARROW ]
+## scid -> CID . PERIOD CID [ UNDERSCORE TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN ID FIELD EQ EOF END CONTRACT COMMA CID BAR ARROW ]
+##
+## The known suffix of the stack is as follows:
+## CID
+##
+
+Syntax parsing error.
+
+type_term: FORALL TID PERIOD TID WITH
+##
+## Ends in an error in state: 61.
+##
+## typ -> typ . TARROW typ [ TARROW RPAREN EQ EOF COMMA ]
+## typ -> FORALL TID PERIOD typ . [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## FORALL TID PERIOD typ
+##
+
+Syntax parsing error.
+
+type_term: FORALL TID PERIOD WITH
+##
+## Ends in an error in state: 60.
+##
+## typ -> FORALL TID PERIOD . typ [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## FORALL TID PERIOD
+##
+
+Syntax parsing error.
+
+type_term: FORALL TID WITH
+##
+## Ends in an error in state: 59.
+##
+## typ -> FORALL TID . PERIOD typ [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## FORALL TID
+##
+
+Syntax parsing error.
+
+type_term: FORALL WITH
+##
+## Ends in an error in state: 58.
+##
+## typ -> FORALL . TID PERIOD typ [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## FORALL
+##
+
+Syntax parsing error.
+
+type_term: LPAREN TID WITH
+##
+## Ends in an error in state: 69.
+##
+## typ -> typ . TARROW typ [ TARROW RPAREN ]
+## typ -> LPAREN typ . RPAREN [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN typ
+##
+
+Syntax parsing error.
+
+type_term: LPAREN WITH
+##
+## Ends in an error in state: 57.
+##
+## typ -> LPAREN . typ RPAREN [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+type_term: MAP CID CID CID UNDERSCORE
+##
+## Ends in an error in state: 41.
+##
+## list(t_map_value_args) -> t_map_value_args . list(t_map_value_args) [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## t_map_value_args
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 40, spurious reduction of production t_map_value_args -> scid 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID CID LPAREN CID UNDERSCORE
+##
+## Ends in an error in state: 38.
+##
+## t_map_value_args -> LPAREN t_map_value_args . RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN t_map_value_args
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 40, spurious reduction of production t_map_value_args -> scid 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID CID LPAREN WITH
+##
+## Ends in an error in state: 37.
+##
+## t_map_value_args -> LPAREN . t_map_value_args RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+type_term: MAP CID CID MAP CID UNDERSCORE
+##
+## Ends in an error in state: 34.
+##
+## t_map_value_args -> MAP t_map_key . t_map_value [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## MAP t_map_key
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 44, spurious reduction of production t_map_key -> scid 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID CID MAP WITH
+##
+## Ends in an error in state: 33.
+##
+## t_map_value_args -> MAP . t_map_key t_map_value [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## MAP
+##
+
+Syntax parsing error.
+
+type_term: MAP CID CID UNDERSCORE
+##
+## Ends in an error in state: 36.
+##
+## t_map_value -> scid . list(t_map_value_args) [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## scid
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID LPAREN CID CID TYPE
+##
+## Ends in an error in state: 48.
+##
+## t_map_value -> LPAREN scid list(t_map_value_args) . RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN scid list(t_map_value_args)
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 40, spurious reduction of production t_map_value_args -> scid 
+## In state 41, spurious reduction of production list(t_map_value_args) -> 
+## In state 42, spurious reduction of production list(t_map_value_args) -> t_map_value_args list(t_map_value_args) 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID LPAREN CID UNDERSCORE
+##
+## Ends in an error in state: 47.
+##
+## t_map_value -> LPAREN scid . list(t_map_value_args) RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN scid
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID LPAREN MAP CID CID UNDERSCORE
+##
+## Ends in an error in state: 45.
+##
+## t_map_value -> LPAREN MAP t_map_key t_map_value_args . RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN MAP t_map_key t_map_value_args
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 40, spurious reduction of production t_map_value_args -> scid 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID LPAREN MAP CID UNDERSCORE
+##
+## Ends in an error in state: 32.
+##
+## t_map_value -> LPAREN MAP t_map_key . t_map_value_args RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN MAP t_map_key
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 44, spurious reduction of production t_map_key -> scid 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID LPAREN MAP WITH
+##
+## Ends in an error in state: 31.
+##
+## t_map_value -> LPAREN MAP . t_map_key t_map_value_args RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN MAP
+##
+
+Syntax parsing error.
+
+type_term: MAP CID LPAREN WITH
+##
+## Ends in an error in state: 30.
+##
+## t_map_value -> LPAREN . scid list(t_map_value_args) RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+## t_map_value -> LPAREN . MAP t_map_key t_map_value_args RPAREN [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+type_term: MAP CID MAP CID UNDERSCORE
+##
+## Ends in an error in state: 29.
+##
+## t_map_value -> MAP t_map_key . t_map_value [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## MAP t_map_key
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 44, spurious reduction of production t_map_key -> scid 
+##
+
+Syntax parsing error.
+
+type_term: MAP CID MAP WITH
+##
+## Ends in an error in state: 28.
+##
+## t_map_value -> MAP . t_map_key t_map_value [ TYPE TRANSITION TID TARROW SEMICOLON RPAREN RBRACE PROCEDURE MAP LPAREN LET IN FIELD EQ EOF END CONTRACT COMMA CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## MAP
+##
+
+Syntax parsing error.
+
+type_term: MAP CID UNDERSCORE
+##
+## Ends in an error in state: 55.
+##
+## typ -> MAP t_map_key . t_map_value [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## MAP t_map_key
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 44, spurious reduction of production t_map_key -> scid 
+##
+
+Syntax parsing error.
+
+type_term: MAP LPAREN CID UNDERSCORE
+##
+## Ends in an error in state: 25.
+##
+## t_map_key -> LPAREN scid . RPAREN [ MAP LPAREN CID ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN scid
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+##
+
+Syntax parsing error.
+
+type_term: MAP LPAREN WITH
+##
+## Ends in an error in state: 21.
+##
+## t_map_key -> LPAREN . scid RPAREN [ MAP LPAREN CID ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+type_term: MAP WITH
+##
+## Ends in an error in state: 54.
+##
+## typ -> MAP . t_map_key t_map_value [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## MAP
+##
+
+Syntax parsing error.
+
+type_term: TID TARROW TID WITH
+##
+## Ends in an error in state: 63.
+##
+## typ -> typ . TARROW typ [ TARROW RPAREN EQ EOF COMMA ]
+## typ -> typ TARROW typ . [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## typ TARROW typ
+##
+
+Syntax parsing error.
+
+type_term: TID TARROW WITH
+##
+## Ends in an error in state: 62.
+##
+## typ -> typ TARROW . typ [ TARROW RPAREN EQ EOF COMMA ]
+##
+## The known suffix of the stack is as follows:
+## typ TARROW
+##
+
+Syntax parsing error.
+
+type_term: TID WITH
+##
+## Ends in an error in state: 304.
+##
+## typ -> typ . TARROW typ [ TARROW EOF ]
+## type_term -> typ . EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## typ
+##
+
+Syntax parsing error.
+
+type_term: WITH
+##
+## Ends in an error in state: 302.
+##
+## type_term' -> . type_term [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+Syntax parsing error.
+
+stmts_term: ACCEPT WITH
+##
+## Ends in an error in state: 259.
+##
+## separated_nonempty_list(SEMICOLON,stmt) -> stmt . [ EOF END BAR ]
+## separated_nonempty_list(SEMICOLON,stmt) -> stmt . SEMICOLON separated_nonempty_list(SEMICOLON,stmt) [ EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## stmt
+##
+
+Syntax parsing error.
+
+stmts_term: CID WITH
+##
+## Ends in an error in state: 262.
+##
+## stmt -> component_id . list(sident) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## component_id
+##
+
+Syntax parsing error.
+
+stmts_term: DELETE ID WITH
+##
+## Ends in an error in state: 256.
+##
+## stmt -> DELETE ID . nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## DELETE ID
+##
+
+Syntax parsing error.
+
+stmts_term: DELETE WITH
+##
+## Ends in an error in state: 255.
+##
+## stmt -> DELETE . ID nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## DELETE
+##
+
+Syntax parsing error.
+
+stmts_term: EVENT WITH
+##
+## Ends in an error in state: 253.
+##
+## stmt -> EVENT . sid [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## EVENT
+##
+
+Syntax parsing error.
+
+stmts_term: ID ASSIGN WITH
+##
+## Ends in an error in state: 248.
+##
+## stmt -> ID ASSIGN . sid [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID ASSIGN
+##
+
+Syntax parsing error.
+
+stmts_term: ID BIND AND WITH
+##
+## Ends in an error in state: 245.
+##
+## stmt -> ID BIND AND . CID [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID BIND AND
+##
+
+Syntax parsing error.
+
+stmts_term: ID BIND EXISTS ID WITH
+##
+## Ends in an error in state: 243.
+##
+## stmt -> ID BIND EXISTS ID . nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID BIND EXISTS ID
+##
+
+Syntax parsing error.
+
+stmts_term: ID BIND EXISTS WITH
+##
+## Ends in an error in state: 242.
+##
+## stmt -> ID BIND EXISTS . ID nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID BIND EXISTS
+##
+
+Syntax parsing error.
+
+stmts_term: ID BIND ID WITH
+##
+## Ends in an error in state: 238.
+##
+## sid -> ID . [ SEMICOLON EOF END BAR ]
+## stmt -> ID BIND ID . nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID BIND ID
+##
+
+Syntax parsing error.
+
+stmts_term: ID BIND WITH
+##
+## Ends in an error in state: 237.
+##
+## stmt -> ID BIND . sid [ SEMICOLON EOF END BAR ]
+## stmt -> ID BIND . AND CID [ SEMICOLON EOF END BAR ]
+## stmt -> ID BIND . ID nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+## stmt -> ID BIND . EXISTS ID nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID BIND
+##
+
+Syntax parsing error.
+
+stmts_term: ID EQ WITH
+##
+## Ends in an error in state: 235.
+##
+## stmt -> ID EQ . exp [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID EQ
+##
+
+Syntax parsing error.
+
+stmts_term: ID LSQB SPID RSQB ASSIGN WITH
+##
+## Ends in an error in state: 251.
+##
+## stmt -> ID nonempty_list(map_access) ASSIGN . sid [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID nonempty_list(map_access) ASSIGN
+##
+
+Syntax parsing error.
+
+stmts_term: ID LSQB SPID RSQB SEMICOLON
+##
+## Ends in an error in state: 250.
+##
+## stmt -> ID nonempty_list(map_access) . ASSIGN sid [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID nonempty_list(map_access)
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 240, spurious reduction of production nonempty_list(map_access) -> map_access 
+##
+
+Syntax parsing error.
+
+stmts_term: ID LSQB SPID RSQB WITH
+##
+## Ends in an error in state: 240.
+##
+## nonempty_list(map_access) -> map_access . [ SEMICOLON EOF END BAR ASSIGN ]
+## nonempty_list(map_access) -> map_access . nonempty_list(map_access) [ SEMICOLON EOF END BAR ASSIGN ]
+##
+## The known suffix of the stack is as follows:
+## map_access
+##
+
+Syntax parsing error.
+
+stmts_term: ID LSQB SPID WITH
+##
+## Ends in an error in state: 233.
+##
+## map_access -> LSQB sident . RSQB [ SEMICOLON LSQB EOF END BAR ASSIGN ]
+##
+## The known suffix of the stack is as follows:
+## LSQB sident
+##
+
+Syntax parsing error.
+
+stmts_term: ID LSQB WITH
+##
+## Ends in an error in state: 232.
+##
+## map_access -> LSQB . sident RSQB [ SEMICOLON LSQB EOF END BAR ASSIGN ]
+##
+## The known suffix of the stack is as follows:
+## LSQB
+##
+
+Syntax parsing error.
+
+stmts_term: ID SPID WITH
+##
+## Ends in an error in state: 162.
+##
+## list(sident) -> sident . list(sident) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## sident
+##
+
+Syntax parsing error.
+
+stmts_term: ID WITH
+##
+## Ends in an error in state: 231.
+##
+## component_id -> ID . [ SPID SEMICOLON ID EOF END CID BAR ]
+## stmt -> ID . BIND sid [ SEMICOLON EOF END BAR ]
+## stmt -> ID . ASSIGN sid [ SEMICOLON EOF END BAR ]
+## stmt -> ID . EQ exp [ SEMICOLON EOF END BAR ]
+## stmt -> ID . BIND AND CID [ SEMICOLON EOF END BAR ]
+## stmt -> ID . BIND ID nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+## stmt -> ID . BIND EXISTS ID nonempty_list(map_access) [ SEMICOLON EOF END BAR ]
+## stmt -> ID . nonempty_list(map_access) ASSIGN sid [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+Syntax parsing error.
+
+stmts_term: MATCH SPID UNDERSCORE
+##
+## Ends in an error in state: 226.
+##
+## stmt -> MATCH sid . WITH list(stmt_pm_clause) END [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## MATCH sid
+##
+
+Syntax parsing error.
+
+stmts_term: MATCH SPID WITH BAR UNDERSCORE ARROW ACCEPT EOF
+##
+## Ends in an error in state: 266.
+##
+## list(stmt_pm_clause) -> stmt_pm_clause . list(stmt_pm_clause) [ END ]
+##
+## The known suffix of the stack is as follows:
+## stmt_pm_clause
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 259, spurious reduction of production separated_nonempty_list(SEMICOLON,stmt) -> stmt 
+## In state 264, spurious reduction of production loption(separated_nonempty_list(SEMICOLON,stmt)) -> separated_nonempty_list(SEMICOLON,stmt) 
+## In state 265, spurious reduction of production stmt_pm_clause -> BAR pattern ARROW loption(separated_nonempty_list(SEMICOLON,stmt)) 
+##
+
+Syntax parsing error.
+
+stmts_term: MATCH SPID WITH BAR UNDERSCORE ARROW WITH
+##
+## Ends in an error in state: 230.
+##
+## stmt_pm_clause -> BAR pattern ARROW . loption(separated_nonempty_list(SEMICOLON,stmt)) [ END BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR pattern ARROW
+##
+
+Syntax parsing error.
+
+stmts_term: MATCH SPID WITH BAR UNDERSCORE WITH
+##
+## Ends in an error in state: 229.
+##
+## stmt_pm_clause -> BAR pattern . ARROW loption(separated_nonempty_list(SEMICOLON,stmt)) [ END BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR pattern
+##
+
+Syntax parsing error.
+
+stmts_term: MATCH SPID WITH BAR WITH
+##
+## Ends in an error in state: 228.
+##
+## stmt_pm_clause -> BAR . pattern ARROW loption(separated_nonempty_list(SEMICOLON,stmt)) [ END BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR
+##
+
+Syntax parsing error.
+
+stmts_term: MATCH SPID WITH WITH
+##
+## Ends in an error in state: 227.
+##
+## stmt -> MATCH sid WITH . list(stmt_pm_clause) END [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## MATCH sid WITH
+##
+
+Syntax parsing error.
+
+stmts_term: MATCH WITH
+##
+## Ends in an error in state: 225.
+##
+## stmt -> MATCH . sid WITH list(stmt_pm_clause) END [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## MATCH
+##
+
+Syntax parsing error.
+
+stmts_term: SEND CID PERIOD WITH
+##
+## Ends in an error in state: 90.
+##
+## sid -> CID PERIOD . ID [ WITH TID SEMICOLON RBRACE MAP LPAREN EOF END COLON CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## CID PERIOD
+##
+
+Syntax parsing error.
+
+stmts_term: SEND CID WITH
+##
+## Ends in an error in state: 89.
+##
+## sid -> CID . PERIOD ID [ WITH TID SEMICOLON MAP LPAREN EOF END COLON CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## CID
+##
+
+Syntax parsing error.
+
+stmts_term: SEND WITH
+##
+## Ends in an error in state: 223.
+##
+## stmt -> SEND . sid [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## SEND
+##
+
+Syntax parsing error.
+
+stmts_term: THROW END
+##
+## Ends in an error in state: 300.
+##
+## stmts_term -> stmts . EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## stmts
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 220, spurious reduction of production option(sid) -> 
+## In state 222, spurious reduction of production stmt -> THROW option(sid) 
+## In state 259, spurious reduction of production separated_nonempty_list(SEMICOLON,stmt) -> stmt 
+## In state 264, spurious reduction of production loption(separated_nonempty_list(SEMICOLON,stmt)) -> separated_nonempty_list(SEMICOLON,stmt) 
+## In state 272, spurious reduction of production stmts -> loption(separated_nonempty_list(SEMICOLON,stmt)) 
+##
+
+Syntax parsing error.
+
+stmts_term: THROW SEMICOLON WITH
+##
+## Ends in an error in state: 260.
+##
+## separated_nonempty_list(SEMICOLON,stmt) -> stmt SEMICOLON . separated_nonempty_list(SEMICOLON,stmt) [ EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## stmt SEMICOLON
+##
+
+Syntax parsing error.
+
+stmts_term: THROW WITH
+##
+## Ends in an error in state: 220.
+##
+## stmt -> THROW . option(sid) [ SEMICOLON EOF END BAR ]
+##
+## The known suffix of the stack is as follows:
+## THROW
+##
+
+Syntax parsing error.
+
+stmts_term: WITH
+##
+## Ends in an error in state: 298.
+##
+## stmts_term' -> . stmts_term [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+Syntax parsing error.
+
+lmodule: IMPORT CID AS CID WITH
+##
+## Ends in an error in state: 8.
+##
+## list(importname) -> importname . list(importname) [ LIBRARY CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## importname
+##
+
+Syntax parsing error.
+
+lmodule: IMPORT CID AS WITH
+##
+## Ends in an error in state: 5.
+##
+## importname -> CID AS . CID [ LIBRARY CONTRACT CID ]
+##
+## The known suffix of the stack is as follows:
+## CID AS
+##
+
+Syntax parsing error.
+
+lmodule: IMPORT CID WITH
+##
+## Ends in an error in state: 4.
+##
+## importname -> CID . [ LIBRARY CONTRACT CID ]
+## importname -> CID . AS CID [ LIBRARY CONTRACT CID ]
+##
+## The known suffix of the stack is as follows:
+## CID
+##
+
+Syntax parsing error.
+
+lmodule: IMPORT CONTRACT
+##
+## Ends in an error in state: 295.
+##
+## lmodule -> imports . library EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## imports
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 3, spurious reduction of production list(importname) -> 
+## In state 7, spurious reduction of production imports -> IMPORT list(importname) 
+##
+
+Syntax parsing error.
+
+lmodule: IMPORT WITH
+##
+## Ends in an error in state: 3.
+##
+## imports -> IMPORT . list(importname) [ LIBRARY CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## IMPORT
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID CONTRACT
+##
+## Ends in an error in state: 296.
+##
+## lmodule -> imports library . EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## imports library
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 12, spurious reduction of production list(libentry) -> 
+## In state 189, spurious reduction of production library -> LIBRARY CID list(libentry) 
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID LET ID COLON TID EQ WITH
+##
+## Ends in an error in state: 187.
+##
+## libentry -> LET ID type_annot EQ . exp [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## LET ID type_annot EQ
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID LET ID EQ HEXLIT WITH
+##
+## Ends in an error in state: 190.
+##
+## list(libentry) -> libentry . list(libentry) [ EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## libentry
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID LET ID EQ WITH
+##
+## Ends in an error in state: 81.
+##
+## libentry -> LET ID EQ . exp [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## LET ID EQ
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID LET ID WITH
+##
+## Ends in an error in state: 80.
+##
+## libentry -> LET ID . EQ exp [ TYPE LET EOF CONTRACT ]
+## libentry -> LET ID . type_annot EQ exp [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## LET ID
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID LET WITH
+##
+## Ends in an error in state: 79.
+##
+## libentry -> LET . ID EQ exp [ TYPE LET EOF CONTRACT ]
+## libentry -> LET . ID type_annot EQ exp [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## LET
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID TYPE CID EQ BAR CID OF CID TRANSITION
+##
+## Ends in an error in state: 76.
+##
+## nonempty_list(tconstr) -> tconstr . [ TYPE LET EOF CONTRACT ]
+## nonempty_list(tconstr) -> tconstr . nonempty_list(tconstr) [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## tconstr
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 66, spurious reduction of production targ -> scid 
+## In state 73, spurious reduction of production nonempty_list(targ) -> targ 
+## In state 75, spurious reduction of production tconstr -> BAR CID OF nonempty_list(targ) 
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID TYPE CID EQ BAR CID OF WITH
+##
+## Ends in an error in state: 18.
+##
+## tconstr -> BAR CID OF . nonempty_list(targ) [ TYPE LET EOF CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR CID OF
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID TYPE CID EQ BAR CID WITH
+##
+## Ends in an error in state: 17.
+##
+## tconstr -> BAR CID . [ TYPE LET EOF CONTRACT BAR ]
+## tconstr -> BAR CID . OF nonempty_list(targ) [ TYPE LET EOF CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR CID
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID TYPE CID EQ BAR WITH
+##
+## Ends in an error in state: 16.
+##
+## tconstr -> BAR . CID [ TYPE LET EOF CONTRACT BAR ]
+## tconstr -> BAR . CID OF nonempty_list(targ) [ TYPE LET EOF CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID TYPE CID EQ WITH
+##
+## Ends in an error in state: 15.
+##
+## libentry -> TYPE CID EQ . nonempty_list(tconstr) [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## TYPE CID EQ
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID TYPE CID WITH
+##
+## Ends in an error in state: 14.
+##
+## libentry -> TYPE CID . [ TYPE LET EOF CONTRACT ]
+## libentry -> TYPE CID . EQ nonempty_list(tconstr) [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## TYPE CID
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID TYPE WITH
+##
+## Ends in an error in state: 13.
+##
+## libentry -> TYPE . CID [ TYPE LET EOF CONTRACT ]
+## libentry -> TYPE . CID EQ nonempty_list(tconstr) [ TYPE LET EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## TYPE
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY CID WITH
+##
+## Ends in an error in state: 12.
+##
+## library -> LIBRARY CID . list(libentry) [ EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## LIBRARY CID
+##
+
+Syntax parsing error.
+
+lmodule: LIBRARY WITH
+##
+## Ends in an error in state: 11.
+##
+## library -> LIBRARY . CID list(libentry) [ EOF CONTRACT ]
+##
+## The known suffix of the stack is as follows:
+## LIBRARY
+##
+
+Syntax parsing error.
+
+lmodule: WITH
+##
+## Ends in an error in state: 293.
+##
+## lmodule' -> . lmodule [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+Syntax parsing error.
+
+exp_term: AT SPID TID WITH
+##
+## Ends in an error in state: 73.
+##
+## nonempty_list(targ) -> targ . [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+## nonempty_list(targ) -> targ . nonempty_list(targ) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## targ
+##
+
+Syntax parsing error.
+
+exp_term: AT SPID WITH
+##
+## Ends in an error in state: 152.
+##
+## simple_exp -> AT sid . nonempty_list(targ) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## AT sid
+##
+
+Syntax parsing error.
+
+exp_term: AT WITH
+##
+## Ends in an error in state: 151.
+##
+## simple_exp -> AT . sid nonempty_list(targ) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## AT
+##
+
+Syntax parsing error.
+
+exp_term: BUILTIN ID LPAREN WITH
+##
+## Ends in an error in state: 141.
+##
+## builtin_args -> LPAREN . RPAREN [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+exp_term: BUILTIN ID WITH
+##
+## Ends in an error in state: 139.
+##
+## simple_exp -> BUILTIN ID . builtin_args [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## BUILTIN ID
+##
+
+Syntax parsing error.
+
+exp_term: BUILTIN WITH
+##
+## Ends in an error in state: 138.
+##
+## simple_exp -> BUILTIN . ID builtin_args [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## BUILTIN
+##
+
+Syntax parsing error.
+
+exp_term: CID LBRACE RBRACE AT
+##
+## Ends in an error in state: 161.
+##
+## simple_exp -> scid option(ctargs) . list(sident) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## scid option(ctargs)
+##
+
+Syntax parsing error.
+
+exp_term: CID LBRACE TID EQ
+##
+## Ends in an error in state: 159.
+##
+## ctargs -> LBRACE list(targ) . RBRACE [ TYPE TRANSITION SPID SEMICOLON PROCEDURE LET IN ID FIELD EOF END CONTRACT CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LBRACE list(targ)
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 65, spurious reduction of production list(targ) -> 
+## In state 67, spurious reduction of production list(targ) -> targ list(targ) 
+##
+
+Syntax parsing error.
+
+exp_term: CID LBRACE WITH
+##
+## Ends in an error in state: 158.
+##
+## ctargs -> LBRACE . list(targ) RBRACE [ TYPE TRANSITION SPID SEMICOLON PROCEDURE LET IN ID FIELD EOF END CONTRACT CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## LBRACE
+##
+
+Syntax parsing error.
+
+exp_term: CID PERIOD CID WITH
+##
+## Ends in an error in state: 157.
+##
+## simple_exp -> scid . option(ctargs) list(sident) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## scid
+##
+
+Syntax parsing error.
+
+exp_term: CID PERIOD WITH
+##
+## Ends in an error in state: 137.
+##
+## scid -> CID PERIOD . CID [ TYPE TRANSITION SPID SEMICOLON PROCEDURE LET LBRACE IN ID FIELD EOF END CONTRACT CID BAR ]
+## sid -> CID PERIOD . ID [ TYPE TRANSITION SPID SEMICOLON PROCEDURE LET IN ID FIELD EOF END CONTRACT CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## CID PERIOD
+##
+
+Syntax parsing error.
+
+exp_term: CID WITH
+##
+## Ends in an error in state: 136.
+##
+## lit -> CID . NUMLIT [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+## scid -> CID . [ TYPE TRANSITION SPID SEMICOLON PROCEDURE LET LBRACE IN ID FIELD EOF END CONTRACT CID BAR ]
+## scid -> CID . PERIOD CID [ TYPE TRANSITION SPID SEMICOLON PROCEDURE LET LBRACE IN ID FIELD EOF END CONTRACT CID BAR ]
+## sid -> CID . PERIOD ID [ TYPE TRANSITION SPID SEMICOLON PROCEDURE LET IN ID FIELD EOF END CONTRACT CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## CID
+##
+
+Syntax parsing error.
+
+exp_term: EMP CID UNDERSCORE
+##
+## Ends in an error in state: 117.
+##
+## lit -> EMP t_map_key . t_map_value [ TYPE TRANSITION SEMICOLON RBRACE PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## EMP t_map_key
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+## In state 44, spurious reduction of production t_map_key -> scid 
+##
+
+Syntax parsing error.
+
+exp_term: EMP WITH
+##
+## Ends in an error in state: 116.
+##
+## lit -> EMP . t_map_key t_map_value [ TYPE TRANSITION SEMICOLON RBRACE PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## EMP
+##
+
+Syntax parsing error.
+
+exp_term: FUN LPAREN ID COLON TID RPAREN ARROW WITH
+##
+## Ends in an error in state: 135.
+##
+## simple_exp -> FUN LPAREN ID COLON typ RPAREN ARROW . exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## FUN LPAREN ID COLON typ RPAREN ARROW
+##
+
+Syntax parsing error.
+
+exp_term: FUN LPAREN ID COLON TID RPAREN WITH
+##
+## Ends in an error in state: 134.
+##
+## simple_exp -> FUN LPAREN ID COLON typ RPAREN . ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## FUN LPAREN ID COLON typ RPAREN
+##
+
+Syntax parsing error.
+
+exp_term: FUN LPAREN ID COLON TID WITH
+##
+## Ends in an error in state: 133.
+##
+## simple_exp -> FUN LPAREN ID COLON typ . RPAREN ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+## typ -> typ . TARROW typ [ TARROW RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## FUN LPAREN ID COLON typ
+##
+
+Syntax parsing error.
+
+exp_term: FUN LPAREN ID COLON WITH
+##
+## Ends in an error in state: 132.
+##
+## simple_exp -> FUN LPAREN ID COLON . typ RPAREN ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## FUN LPAREN ID COLON
+##
+
+Syntax parsing error.
+
+exp_term: FUN LPAREN ID WITH
+##
+## Ends in an error in state: 131.
+##
+## simple_exp -> FUN LPAREN ID . COLON typ RPAREN ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## FUN LPAREN ID
+##
+
+Syntax parsing error.
+
+exp_term: FUN LPAREN WITH
+##
+## Ends in an error in state: 130.
+##
+## simple_exp -> FUN LPAREN . ID COLON typ RPAREN ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## FUN LPAREN
+##
+
+Syntax parsing error.
+
+exp_term: FUN WITH
+##
+## Ends in an error in state: 129.
+##
+## simple_exp -> FUN . LPAREN ID COLON typ RPAREN ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## FUN
+##
+
+Syntax parsing error.
+
+exp_term: LBRACE SPID COLON CID WITH
+##
+## Ends in an error in state: 119.
+##
+## lit -> CID . NUMLIT [ SEMICOLON RBRACE ]
+## sid -> CID . PERIOD ID [ SEMICOLON RBRACE ]
+##
+## The known suffix of the stack is as follows:
+## CID
+##
+
+Syntax parsing error.
+
+exp_term: LBRACE SPID COLON HEXLIT SEMICOLON WITH
+##
+## Ends in an error in state: 125.
+##
+## separated_nonempty_list(SEMICOLON,msg_entry) -> msg_entry SEMICOLON . separated_nonempty_list(SEMICOLON,msg_entry) [ RBRACE ]
+##
+## The known suffix of the stack is as follows:
+## msg_entry SEMICOLON
+##
+
+Syntax parsing error.
+
+exp_term: LBRACE SPID COLON HEXLIT WITH
+##
+## Ends in an error in state: 124.
+##
+## separated_nonempty_list(SEMICOLON,msg_entry) -> msg_entry . [ RBRACE ]
+## separated_nonempty_list(SEMICOLON,msg_entry) -> msg_entry . SEMICOLON separated_nonempty_list(SEMICOLON,msg_entry) [ RBRACE ]
+##
+## The known suffix of the stack is as follows:
+## msg_entry
+##
+
+Syntax parsing error.
+
+exp_term: LBRACE SPID COLON WITH
+##
+## Ends in an error in state: 114.
+##
+## msg_entry -> sid COLON . lit [ SEMICOLON RBRACE ]
+## msg_entry -> sid COLON . sid [ SEMICOLON RBRACE ]
+##
+## The known suffix of the stack is as follows:
+## sid COLON
+##
+
+Syntax parsing error.
+
+exp_term: LBRACE SPID WITH
+##
+## Ends in an error in state: 113.
+##
+## msg_entry -> sid . COLON lit [ SEMICOLON RBRACE ]
+## msg_entry -> sid . COLON sid [ SEMICOLON RBRACE ]
+##
+## The known suffix of the stack is as follows:
+## sid
+##
+
+Syntax parsing error.
+
+exp_term: LBRACE WITH
+##
+## Ends in an error in state: 112.
+##
+## simple_exp -> LBRACE . loption(separated_nonempty_list(SEMICOLON,msg_entry)) RBRACE [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LBRACE
+##
+
+Syntax parsing error.
+
+exp_term: LET ID COLON TID EQ STRING IN WITH
+##
+## Ends in an error in state: 177.
+##
+## simple_exp -> LET ID type_annot EQ simple_exp IN . exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET ID type_annot EQ simple_exp IN
+##
+
+Syntax parsing error.
+
+exp_term: LET ID COLON TID EQ STRING WITH
+##
+## Ends in an error in state: 176.
+##
+## simple_exp -> LET ID type_annot EQ simple_exp . IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET ID type_annot EQ simple_exp
+##
+
+Syntax parsing error.
+
+exp_term: LET ID COLON TID EQ WITH
+##
+## Ends in an error in state: 175.
+##
+## simple_exp -> LET ID type_annot EQ . simple_exp IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET ID type_annot EQ
+##
+
+Syntax parsing error.
+
+exp_term: LET ID COLON TID WITH
+##
+## Ends in an error in state: 173.
+##
+## typ -> typ . TARROW typ [ TARROW EQ ]
+## type_annot -> COLON typ . [ EQ ]
+##
+## The known suffix of the stack is as follows:
+## COLON typ
+##
+
+Syntax parsing error.
+
+exp_term: LET ID COLON WITH
+##
+## Ends in an error in state: 172.
+##
+## type_annot -> COLON . typ [ EQ ]
+##
+## The known suffix of the stack is as follows:
+## COLON
+##
+
+Syntax parsing error.
+
+exp_term: LET ID EQ STRING IN WITH
+##
+## Ends in an error in state: 170.
+##
+## simple_exp -> LET ID EQ simple_exp IN . exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET ID EQ simple_exp IN
+##
+
+Syntax parsing error.
+
+exp_term: LET ID EQ STRING WITH
+##
+## Ends in an error in state: 169.
+##
+## simple_exp -> LET ID EQ simple_exp . IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET ID EQ simple_exp
+##
+
+Syntax parsing error.
+
+exp_term: LET ID EQ WITH
+##
+## Ends in an error in state: 111.
+##
+## simple_exp -> LET ID EQ . simple_exp IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET ID EQ
+##
+
+Syntax parsing error.
+
+exp_term: LET ID WITH
+##
+## Ends in an error in state: 110.
+##
+## simple_exp -> LET ID . EQ simple_exp IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+## simple_exp -> LET ID . type_annot EQ simple_exp IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET ID
+##
+
+Syntax parsing error.
+
+exp_term: LET WITH
+##
+## Ends in an error in state: 109.
+##
+## simple_exp -> LET . ID EQ simple_exp IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+## simple_exp -> LET . ID type_annot EQ simple_exp IN exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## LET
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID UNDERSCORE
+##
+## Ends in an error in state: 92.
+##
+## simple_exp -> MATCH sid . WITH list(exp_pm_clause) END [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## MATCH sid
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR CID LPAREN UNDERSCORE WITH
+##
+## Ends in an error in state: 100.
+##
+## arg_pattern -> LPAREN pattern . RPAREN [ UNDERSCORE RPAREN LPAREN ID CID ARROW ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN pattern
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR CID LPAREN WITH
+##
+## Ends in an error in state: 99.
+##
+## arg_pattern -> LPAREN . pattern RPAREN [ UNDERSCORE RPAREN LPAREN ID CID ARROW ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR CID TYPE
+##
+## Ends in an error in state: 97.
+##
+## pattern -> scid . list(arg_pattern) [ RPAREN ARROW ]
+##
+## The known suffix of the stack is as follows:
+## scid
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 22, spurious reduction of production scid -> CID 
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR CID UNDERSCORE WITH
+##
+## Ends in an error in state: 105.
+##
+## list(arg_pattern) -> arg_pattern . list(arg_pattern) [ RPAREN ARROW ]
+##
+## The known suffix of the stack is as follows:
+## arg_pattern
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR UNDERSCORE ARROW HEXLIT WITH
+##
+## Ends in an error in state: 182.
+##
+## list(exp_pm_clause) -> exp_pm_clause . list(exp_pm_clause) [ END ]
+##
+## The known suffix of the stack is as follows:
+## exp_pm_clause
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR UNDERSCORE ARROW WITH
+##
+## Ends in an error in state: 108.
+##
+## exp_pm_clause -> BAR pattern ARROW . exp [ END BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR pattern ARROW
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR UNDERSCORE WITH
+##
+## Ends in an error in state: 107.
+##
+## exp_pm_clause -> BAR pattern . ARROW exp [ END BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR pattern
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH BAR WITH
+##
+## Ends in an error in state: 94.
+##
+## exp_pm_clause -> BAR . pattern ARROW exp [ END BAR ]
+##
+## The known suffix of the stack is as follows:
+## BAR
+##
+
+Syntax parsing error.
+
+exp_term: MATCH SPID WITH WITH
+##
+## Ends in an error in state: 93.
+##
+## simple_exp -> MATCH sid WITH . list(exp_pm_clause) END [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## MATCH sid WITH
+##
+
+Syntax parsing error.
+
+exp_term: MATCH WITH
+##
+## Ends in an error in state: 87.
+##
+## simple_exp -> MATCH . sid WITH list(exp_pm_clause) END [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## MATCH
+##
+
+Syntax parsing error.
+
+exp_term: SPID CID PERIOD WITH
+##
+## Ends in an error in state: 145.
+##
+## sident -> CID PERIOD . ID [ TYPE TRANSITION SPID SEMICOLON RSQB PROCEDURE LET IN ID FIELD EOF END CONTRACT CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## CID PERIOD
+##
+
+Syntax parsing error.
+
+exp_term: SPID CID WITH
+##
+## Ends in an error in state: 144.
+##
+## sident -> CID . PERIOD ID [ TYPE TRANSITION SPID SEMICOLON RSQB PROCEDURE LET IN ID FIELD EOF END CONTRACT CID BAR ]
+##
+## The known suffix of the stack is as follows:
+## CID
+##
+
+Syntax parsing error.
+
+exp_term: SPID SPID WITH
+##
+## Ends in an error in state: 147.
+##
+## nonempty_list(sident) -> sident . [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+## nonempty_list(sident) -> sident . nonempty_list(sident) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## sident
+##
+
+Syntax parsing error.
+
+exp_term: SPID WITH
+##
+## Ends in an error in state: 155.
+##
+## atomic_exp -> sid . [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+## simple_exp -> sid . nonempty_list(sident) [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## sid
+##
+
+Syntax parsing error.
+
+exp_term: STRING WITH
+##
+## Ends in an error in state: 291.
+##
+## exp_term -> exp . EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## exp
+##
+
+Syntax parsing error.
+
+exp_term: TFUN TID ARROW WITH
+##
+## Ends in an error in state: 84.
+##
+## simple_exp -> TFUN TID ARROW . exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## TFUN TID ARROW
+##
+
+Syntax parsing error.
+
+exp_term: TFUN TID WITH
+##
+## Ends in an error in state: 83.
+##
+## simple_exp -> TFUN TID . ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## TFUN TID
+##
+
+Syntax parsing error.
+
+exp_term: TFUN WITH
+##
+## Ends in an error in state: 82.
+##
+## simple_exp -> TFUN . TID ARROW exp [ TYPE TRANSITION SEMICOLON PROCEDURE LET IN FIELD EOF END CONTRACT BAR ]
+##
+## The known suffix of the stack is as follows:
+## TFUN
+##
+
+Syntax parsing error.
+
+exp_term: WITH
+##
+## Ends in an error in state: 289.
+##
+## exp_term' -> . exp_term [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON CID COMMA WITH
+##
+## Ends in an error in state: 201.
+##
+## separated_nonempty_list(COMMA,param_pair) -> param_pair COMMA . separated_nonempty_list(COMMA,param_pair) [ RPAREN ]
+##
+## The known suffix of the stack is as follows:
+## param_pair COMMA
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON TID WITH
+##
+## Ends in an error in state: 198.
+##
+## param_pair -> ID COLON typ . [ RPAREN COMMA ]
+## typ -> typ . TARROW typ [ TARROW RPAREN COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID COLON typ
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON WITH
+##
+## Ends in an error in state: 197.
+##
+## param_pair -> ID COLON . typ [ RPAREN COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID COLON
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID WITH
+##
+## Ends in an error in state: 196.
+##
+## param_pair -> ID . COLON typ [ RPAREN COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON CID EQ HEXLIT WITH
+##
+## Ends in an error in state: 283.
+##
+## list(field) -> field . list(field) [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## field
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON TID EQ WITH
+##
+## Ends in an error in state: 209.
+##
+## field -> FIELD ID COLON typ EQ . exp [ TRANSITION PROCEDURE FIELD EOF ]
+##
+## The known suffix of the stack is as follows:
+## FIELD ID COLON typ EQ
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON TID WITH
+##
+## Ends in an error in state: 208.
+##
+## field -> FIELD ID COLON typ . EQ exp [ TRANSITION PROCEDURE FIELD EOF ]
+## typ -> typ . TARROW typ [ TARROW EQ ]
+##
+## The known suffix of the stack is as follows:
+## FIELD ID COLON typ
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON WITH
+##
+## Ends in an error in state: 207.
+##
+## field -> FIELD ID COLON . typ EQ exp [ TRANSITION PROCEDURE FIELD EOF ]
+##
+## The known suffix of the stack is as follows:
+## FIELD ID COLON
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID WITH
+##
+## Ends in an error in state: 206.
+##
+## field -> FIELD ID . COLON typ EQ exp [ TRANSITION PROCEDURE FIELD EOF ]
+##
+## The known suffix of the stack is as follows:
+## FIELD ID
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD WITH
+##
+## Ends in an error in state: 205.
+##
+## field -> FIELD . ID COLON typ EQ exp [ TRANSITION PROCEDURE FIELD EOF ]
+##
+## The known suffix of the stack is as follows:
+## FIELD
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE ID LPAREN RPAREN WITH
+##
+## Ends in an error in state: 276.
+##
+## procedure -> PROCEDURE component_id component_params . component_body [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## PROCEDURE component_id component_params
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE ID WITH
+##
+## Ends in an error in state: 275.
+##
+## procedure -> PROCEDURE component_id . component_params component_body [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## PROCEDURE component_id
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE WITH
+##
+## Ends in an error in state: 274.
+##
+## procedure -> PROCEDURE . component_id component_params component_body [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## PROCEDURE
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN RPAREN END WITH
+##
+## Ends in an error in state: 281.
+##
+## list(component) -> component . list(component) [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## component
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN RPAREN THROW BAR
+##
+## Ends in an error in state: 270.
+##
+## component_body -> stmts . END [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## stmts
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 220, spurious reduction of production option(sid) -> 
+## In state 222, spurious reduction of production stmt -> THROW option(sid) 
+## In state 259, spurious reduction of production separated_nonempty_list(SEMICOLON,stmt) -> stmt 
+## In state 264, spurious reduction of production loption(separated_nonempty_list(SEMICOLON,stmt)) -> separated_nonempty_list(SEMICOLON,stmt) 
+## In state 272, spurious reduction of production stmts -> loption(separated_nonempty_list(SEMICOLON,stmt)) 
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN RPAREN WITH
+##
+## Ends in an error in state: 219.
+##
+## transition -> TRANSITION component_id component_params . component_body [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## TRANSITION component_id component_params
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN WITH
+##
+## Ends in an error in state: 216.
+##
+## component_params -> LPAREN . loption(separated_nonempty_list(COMMA,param_pair)) RPAREN [ THROW SEND MATCH ID EVENT END DELETE CID ACCEPT ]
+##
+## The known suffix of the stack is as follows:
+## LPAREN
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID WITH
+##
+## Ends in an error in state: 215.
+##
+## transition -> TRANSITION component_id . component_params component_body [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## TRANSITION component_id
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION WITH
+##
+## Ends in an error in state: 212.
+##
+## transition -> TRANSITION . component_id component_params component_body [ TRANSITION PROCEDURE EOF ]
+##
+## The known suffix of the stack is as follows:
+## TRANSITION
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN WITH
+##
+## Ends in an error in state: 204.
+##
+## contract -> CONTRACT CID LPAREN loption(separated_nonempty_list(COMMA,param_pair)) RPAREN . list(field) list(component) [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## CONTRACT CID LPAREN loption(separated_nonempty_list(COMMA,param_pair)) RPAREN
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN WITH
+##
+## Ends in an error in state: 195.
+##
+## contract -> CONTRACT CID LPAREN . loption(separated_nonempty_list(COMMA,param_pair)) RPAREN list(field) list(component) [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## CONTRACT CID LPAREN
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT CID WITH
+##
+## Ends in an error in state: 194.
+##
+## contract -> CONTRACT CID . LPAREN loption(separated_nonempty_list(COMMA,param_pair)) RPAREN list(field) list(component) [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## CONTRACT CID
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT CONTRACT WITH
+##
+## Ends in an error in state: 193.
+##
+## contract -> CONTRACT . CID LPAREN loption(separated_nonempty_list(COMMA,param_pair)) RPAREN list(field) list(component) [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## CONTRACT
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT LIBRARY CID EOF
+##
+## Ends in an error in state: 192.
+##
+## cmodule -> SCILLA_VERSION NUMLIT imports option(library) . contract EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## SCILLA_VERSION NUMLIT imports option(library)
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 12, spurious reduction of production list(libentry) -> 
+## In state 189, spurious reduction of production library -> LIBRARY CID list(libentry) 
+## In state 287, spurious reduction of production option(library) -> library 
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION NUMLIT WITH
+##
+## Ends in an error in state: 2.
+##
+## cmodule -> SCILLA_VERSION NUMLIT . imports option(library) contract EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## SCILLA_VERSION NUMLIT
+##
+
+Syntax parsing error.
+
+cmodule: SCILLA_VERSION WITH
+##
+## Ends in an error in state: 1.
+##
+## cmodule -> SCILLA_VERSION . NUMLIT imports option(library) contract EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## SCILLA_VERSION
+##
+
+Syntax parsing error.
+
+cmodule: WITH
+##
+## Ends in an error in state: 0.
+##
+## cmodule' -> . cmodule [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+Syntax parsing error.
+

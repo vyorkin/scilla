@@ -8,16 +8,19 @@ default: all
 # multiple subcommands and uses the library.
 # The library can be loaded in utop for interactive testing.
 all:
+	dune exec -- menhir --compile-errors src/lang/base/problems.messages src/lang/base/ScillaParser.mly > src/lang/base/ParserFaults.ml
 	dune build --profile release @install
 	@test -L bin || ln -s _build/install/default/bin .
 
 # Build only scilla-checker and scilla-runner
 slim:
+	dune exec -- menhir --compile-errors src/lang/base/problems.messages src/lang/base/ScillaParser.mly > src/lang/base/ParserFaults.ml
 	dune build --profile release src/runners/scilla_runner.exe
 	dune build --profile release src/runners/scilla_checker.exe
 	@test -L bin || mkdir bin; ln -s _build/default/src/runners/*.exe bin/
 
 dev:
+	dune exec -- menhir --compile-errors src/lang/base/problems.messages src/lang/base/ScillaParser.mly > src/lang/base/ParserFaults.ml
 	dune build --profile dev @install
 	dune build tests/testsuite.exe
 	@test -L bin || ln -s _build/install/default/bin .
