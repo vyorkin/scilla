@@ -31,12 +31,16 @@ let fail_err msg lexbuf =
 
 let parse_lexbuf checkpoint_starter lexbuf filename =
   lexbuf.lex_curr_p  <- { lexbuf.lex_curr_p with pos_fname = filename };
+  (* Supply of tokens *)
   let supplier = MInter.lexer_lexbuf_to_supplier ScillaLexer.read lexbuf in
+  (* Parsing checkpoint, determines what we parse for *)
   let checkpoint = checkpoint_starter lexbuf.lex_curr_p in
   let success a = pure a in
   let failure state_error =
     let env = match state_error with
     | MInter.HandlingError env -> env
+    (* failure only called for HandlingError or Reject
+     * but Reject never happens as we finish parsing here *)
     | _ -> assert false in
     let state_number = MInter.current_state_number env in
     let error_message =
