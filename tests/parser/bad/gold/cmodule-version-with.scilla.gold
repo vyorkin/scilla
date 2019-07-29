@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "error_message":
+        "After 'scilla_version' a numeric literal (e.g. 0) is expected rather than 'with'.\n",
+      "start_location": {
+        "file": "parser/bad/cmodule-version-with.scilla",
+        "line": 1,
+        "column": 20
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 }
+    }
+  ],
+  "warnings": []
+}

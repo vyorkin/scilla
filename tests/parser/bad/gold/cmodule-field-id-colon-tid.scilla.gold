@@ -1,11 +1,11 @@
 {
   "errors": [
     {
-      "error_message": "The transition parameter name is invalid.\n",
+      "error_message": "Syntax parsing error.\n",
       "start_location": {
-        "file": "checker/bad/bad_transition_param.scilla",
+        "file": "parser/bad/cmodule-field-id-colon-tid.scilla",
         "line": 6,
-        "column": 35
+        "column": 31
       },
       "end_location": { "file": "", "line": 0, "column": 0 }
     }

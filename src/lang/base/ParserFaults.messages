@@ -1923,7 +1923,7 @@ exp_term: TFUN TID ARROW WITH
 ## TFUN TID ARROW
 ##
 
-Syntax parsing error.
+Type functions following their type id and arrow, expect an expression. 'with' is a keyword.
 
 exp_term: TFUN TID WITH
 ##
@@ -1935,7 +1935,7 @@ exp_term: TFUN TID WITH
 ## TFUN TID
 ##
 
-Syntax parsing error.
+Type functions following the type id, expect an arrow not the keyword 'with'.
 
 exp_term: TFUN WITH
 ##
@@ -1947,7 +1947,7 @@ exp_term: TFUN WITH
 ## TFUN
 ##
 
-Syntax parsing error.
+Type functions expect a type id, 'with' is not a valid type id but rather a keyword.
 
 exp_term: WITH
 ##
@@ -1959,7 +1959,7 @@ exp_term: WITH
 ##
 ##
 
-Syntax parsing error.
+Expression terms cannot begin with 'with', a keyword.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON CID COMMA WITH
 ##
@@ -1971,7 +1971,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON CID COMMA WITH
 ## param_pair COMMA
 ##
 
-Syntax parsing error.
+Following a comma in the list of immutable fields, the parser expects another field name, colon and a type not 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON TID WITH
 ##
@@ -1984,7 +1984,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON TID WITH
 ## ID COLON typ
 ##
 
-Syntax parsing error.
+Following the declaration of an immutable field, the parser expects another one seperated by a comma or the end of the declarations with a right parenthesis. 'with' is neither of the two but a keyword.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON WITH
 ##
@@ -1996,7 +1996,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID COLON WITH
 ## ID COLON
 ##
 
-Syntax parsing error.
+In an immutable field declaration the parser expects a valid type name. 'with' is an invalid type name, being a keyword.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID WITH
 ##
@@ -2008,7 +2008,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN ID WITH
 ## ID
 ##
 
-Syntax parsing error.
+In a immutable field decleration, the parser expects a colon following the name not 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON CID EQ HEXLIT WITH
 ##
@@ -2032,7 +2032,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON TID EQ 
 ## FIELD ID COLON typ EQ
 ##
 
-Syntax parsing error.
+In a mutable field declaration, it is expected that the field is initalised to be equal to some expression rather than 'with', a keyword.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON TID WITH
 ##
@@ -2045,7 +2045,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON TID WIT
 ## FIELD ID COLON typ
 ##
 
-Syntax parsing error.
+In a mutable field declaration, after the type is specified an equals is expected instead of 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON WITH
 ##
@@ -2057,7 +2057,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID COLON WITH
 ## FIELD ID COLON
 ##
 
-Syntax parsing error.
+In a mutable field declaration, following the colon after the naming, a type is expected rather than 'with', a keyword.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID WITH
 ##
@@ -2069,7 +2069,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD ID WITH
 ## FIELD ID
 ##
 
-Syntax parsing error.
+In a mutable field declaration, following the naming, a colon preceding the type is expected rather than 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD WITH
 ##
@@ -2081,7 +2081,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN FIELD WITH
 ## FIELD
 ##
 
-Syntax parsing error.
+For a mutable field declaration, the parser expects a valid name.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE ID LPAREN RPAREN WITH
 ##
@@ -2093,7 +2093,8 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE ID LPAREN RP
 ## PROCEDURE component_id component_params
 ##
 
-Syntax parsing error.
+In the transition body the parser expects a list of semi-colon seperated statements, those
+statements cannot begin with 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE ID WITH
 ##
@@ -2105,7 +2106,8 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE ID WITH
 ## PROCEDURE component_id
 ##
 
-Syntax parsing error.
+After a procedure has been named, the parser expects the arguments to be defined so there should
+be a left parenthesis instead of 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE WITH
 ##
@@ -2117,7 +2119,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN PROCEDURE WITH
 ## PROCEDURE
 ##
 
-Syntax parsing error.
+Following a procedure definition, the parser expects a transition or a procedure or end of file. 'with' is none of the aforementioned items.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN RPAREN END WITH
 ##
@@ -2129,7 +2131,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN R
 ## component
 ##
 
-Syntax parsing error.
+Following a transition defintion, the parser expects a transition or a procedure or end of file. 'with' is none of the aforementioned items.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN RPAREN THROW BAR
 ##
@@ -2163,7 +2165,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN R
 ## TRANSITION component_id component_params
 ##
 
-Syntax parsing error.
+After a transition has the parameters defined, we expect a semi-colon seperated list of statements in the body instead of 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN WITH
 ##
@@ -2175,7 +2177,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID LPAREN W
 ## LPAREN
 ##
 
-Syntax parsing error.
+The transition parameter name is invalid.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID WITH
 ##
@@ -2187,7 +2189,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION ID WITH
 ## TRANSITION component_id
 ##
 
-Syntax parsing error.
+After a transition has been named, a left parenthesis in necessary where we are specifying the transition parameters rather than 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION WITH
 ##
@@ -2199,7 +2201,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN TRANSITION WITH
 ## TRANSITION
 ##
 
-Syntax parsing error.
+Transitions must begin with a valid name, not 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN WITH
 ##
@@ -2211,7 +2213,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN RPAREN WITH
 ## CONTRACT CID LPAREN loption(separated_nonempty_list(COMMA,param_pair)) RPAREN
 ##
 
-Syntax parsing error.
+After the defintion of no immutable fields, either the mutable fields definition, a transition or procedure is expected. 'field', 'transition' or 'procedure' is expected, not 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN WITH
 ##
@@ -2223,7 +2225,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID LPAREN WITH
 ## CONTRACT CID LPAREN
 ##
 
-Syntax parsing error.
+After the contract has been named and the left parenthesis entered the parser expects the immutable fields declaration. 'with' is an invalid name for an immutable field.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT CID WITH
 ##
@@ -2235,7 +2237,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT CID WITH
 ## CONTRACT CID
 ##
 
-Syntax parsing error.
+After a contract has been named, the parser expects a left parenthesis not 'with'.
 
 cmodule: SCILLA_VERSION NUMLIT CONTRACT WITH
 ##
@@ -2247,7 +2249,7 @@ cmodule: SCILLA_VERSION NUMLIT CONTRACT WITH
 ## CONTRACT
 ##
 
-Syntax parsing error.
+When a contract is being defined a valid identifier is expected, in this case 'with' is an invalid name.
 
 cmodule: SCILLA_VERSION NUMLIT LIBRARY CID EOF
 ##
@@ -2267,7 +2269,7 @@ cmodule: SCILLA_VERSION NUMLIT LIBRARY CID EOF
 ## In state 287, spurious reduction of production option(library) -> library 
 ##
 
-Syntax parsing error.
+Following the library definition, a contract is expected.
 
 cmodule: SCILLA_VERSION NUMLIT WITH
 ##
@@ -2279,7 +2281,7 @@ cmodule: SCILLA_VERSION NUMLIT WITH
 ## SCILLA_VERSION NUMLIT
 ##
 
-Syntax parsing error.
+After specifying a scilla version number, either imports, a library or contract is expected.
 
 cmodule: SCILLA_VERSION WITH
 ##
@@ -2303,5 +2305,4 @@ cmodule: WITH
 ##
 ##
 
-Syntax parsing error.
-
+Contract modules begin by specifying a scilla version number (e.g. 'scilla_version 0') instead of 'with'.

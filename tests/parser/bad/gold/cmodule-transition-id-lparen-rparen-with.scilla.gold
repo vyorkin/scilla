@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "error_message":
+        "Transitions must begin with a valid name, not 'with'.\n",
+      "start_location": {
+        "file": "parser/bad/cmodule-transition-id-lparen-rparen-with.scilla",
+        "line": 6,
+        "column": 13
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 }
+    }
+  ],
+  "warnings": []
+}

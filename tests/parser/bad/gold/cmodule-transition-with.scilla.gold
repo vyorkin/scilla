@@ -2,11 +2,11 @@
   "errors": [
     {
       "error_message":
-        "For a mutable field declaration, the parser expects a valid name.\n",
+        "Transitions must begin with a valid name, not 'with'.\n",
       "start_location": {
-        "file": "checker/bad/balance_field.scilla",
+        "file": "parser/bad/cmodule-transition-with.scilla",
         "line": 5,
-        "column": 15
+        "column": 16
       },
       "end_location": { "file": "", "line": 0, "column": 0 }
     }

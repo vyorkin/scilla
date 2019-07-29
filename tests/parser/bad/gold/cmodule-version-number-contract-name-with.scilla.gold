@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "error_message":
+        "After a contract has been named, the parser expects a left parenthesis not 'with'.\n",
+      "start_location": {
+        "file": "parser/bad/cmodule-version-number-contract-name-with.scilla",
+        "line": 2,
+        "column": 22
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 }
+    }
+  ],
+  "warnings": []
+}

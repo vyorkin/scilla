@@ -1,0 +1,16 @@
+{
+  "errors": [
+    {
+      "error_message":
+        "After the defintion of no immutable fields, either the mutable fields definition, a transition or procedure is expected. 'field', 'transition' or 'procedure' is expected, not 'with'.\n",
+      "start_location": {
+        "file":
+          "parser/bad/cmodule-version-number-contract-name-lapren-rparen-with.scilla",
+        "line": 3,
+        "column": 8
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 }
+    }
+  ],
+  "warnings": []
+}

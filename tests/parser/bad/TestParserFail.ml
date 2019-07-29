@@ -27,7 +27,29 @@ module Tests = TestUtil.DiffBasedTests(
     let custom_args = ["-contractinfo"]
     let additional_libdirs = []
     let tests = [
-      "version-with.scilla";
+      "cmodule-with.scilla";
+      "cmodule-version-number-with.scilla";
+      "cmodule-version-number-contract-with.scilla";
+      "cmodule-version-number-library-name.scilla";
+      "cmodule-version-with.scilla";
+      "cmodule-version-number-contract-name-lapren-rparen-with.scilla";
+      "cmodule-version-number-contract-name-lparen-with.scilla";
+      "cmodule-version-number-contract-name-with.scilla";
+      "cmodule-version-number-contract-with.scilla";
+      "cmodule-transition-with.scilla";
+      "cmodule-transition-id-with.scilla";
+      "cmodule-transition-id-lparen-with.scilla";
+      "cmodule-transition-id-lparen-rparen-with.scilla";
+      "cmodule-transition-id-lparen-rparen-end-with.scilla";
+      "cmodule-procedure-with.scilla";
+      "cmodule-procedure-id-lparen-rparen-with.scilla";
+      "cmodule-field-with.scilla";
+      "cmodule-field-id-with.scilla";
+      "cmodule-field-id-colon-tid.scilla";
+      "cmodule-field-id-colon-tid-eq-with.scilla";
+      "cmodule-contract-cid-lparen-id-with.scilla";
+      "cmodule-contract-cid-lparen-id-colon-with.scilla";
+      "cmodule-contract-cid-lparen-id-colon-comma-with.scilla";
     ]
     let exit_code : Unix.process_status = WEXITED 1
   end)

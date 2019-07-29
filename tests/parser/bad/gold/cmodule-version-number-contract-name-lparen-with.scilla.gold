@@ -4,9 +4,10 @@
       "error_message":
         "After the contract has been named and the left parenthesis entered the parser expects the immutable fields declaration. 'with' is an invalid name for an immutable field.\n",
       "start_location": {
-        "file": "checker/bad/bad_param.scilla",
+        "file":
+          "parser/bad/cmodule-version-number-contract-name-lparen-with.scilla",
         "line": 3,
-        "column": 35
+        "column": 7
       },
       "end_location": { "file": "", "line": 0, "column": 0 }
     }

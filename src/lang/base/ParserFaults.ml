@@ -7,67 +7,67 @@ let message =
   fun s ->
     match s with
     | 0 ->
-        "Syntax parsing error.\n"
+        "Contract modules begin by specifying a scilla version number (e.g. 'scilla_version 0') instead of 'with'.\n"
     | 1 ->
         "After 'scilla_version' a numeric literal (e.g. 0) is expected rather than 'with'.\n"
     | 2 ->
-        "Syntax parsing error.\n"
+        "After specifying a scilla version number, either imports, a library or contract is expected.\n"
     | 192 ->
-        "Syntax parsing error.\n"
+        "Following the library definition, a contract is expected.\n"
     | 193 ->
-        "Syntax parsing error.\n"
+        "When a contract is being defined a valid identifier is expected, in this case 'with' is an invalid name.\n"
     | 194 ->
-        "Syntax parsing error.\n"
+        "After a contract has been named, the parser expects a left parenthesis not 'with'.\n"
     | 195 ->
-        "Syntax parsing error.\n"
+        "After the contract has been named and the left parenthesis entered the parser expects the immutable fields declaration. 'with' is an invalid name for an immutable field.\n"
     | 204 ->
-        "Syntax parsing error.\n"
+        "After the defintion of no immutable fields, either the mutable fields definition, a transition or procedure is expected. 'field', 'transition' or 'procedure' is expected, not 'with'.\n"
     | 212 ->
-        "Syntax parsing error.\n"
+        "Transitions must begin with a valid name, not 'with'.\n"
     | 215 ->
-        "Syntax parsing error.\n"
+        "After a transition has been named, a left parenthesis in necessary where we are specifying the transition parameters rather than 'with'.\n"
     | 216 ->
-        "Syntax parsing error.\n"
+        "The transition parameter name is invalid.\n"
     | 219 ->
-        "Syntax parsing error.\n"
+        "After a transition has the parameters defined, we expect a semi-colon seperated list of statements in the body instead of 'with'.\n"
     | 270 ->
         "Syntax parsing error.\n"
     | 281 ->
-        "Syntax parsing error.\n"
+        "Following a transition defintion, the parser expects a transition or a procedure or end of file. 'with' is none of the aforementioned items.\n"
     | 274 ->
-        "Syntax parsing error.\n"
+        "Following a procedure definition, the parser expects a transition or a procedure or end of file. 'with' is none of the aforementioned items.\n"
     | 275 ->
-        "Syntax parsing error.\n"
+        "After a procedure has been named, the parser expects the arguments to be defined so there should\nbe a left parenthesis instead of 'with'.\n"
     | 276 ->
-        "Syntax parsing error.\n"
+        "In the transition body the parser expects a list of semi-colon seperated statements, those\nstatements cannot begin with 'with'.\n"
     | 205 ->
-        "Syntax parsing error.\n"
+        "For a mutable field declaration, the parser expects a valid name.\n"
     | 206 ->
-        "Syntax parsing error.\n"
+        "In a mutable field declaration, following the naming, a colon preceding the type is expected rather than 'with'.\n"
     | 207 ->
-        "Syntax parsing error.\n"
+        "In a mutable field declaration, following the colon after the naming, a type is expected rather than 'with', a keyword.\n"
     | 208 ->
-        "Syntax parsing error.\n"
+        "In a mutable field declaration, after the type is specified an equals is expected instead of 'with'.\n"
     | 209 ->
-        "Syntax parsing error.\n"
+        "In a mutable field declaration, it is expected that the field is initalised to be equal to some expression rather than 'with', a keyword.\n"
     | 283 ->
         "Syntax parsing error.\n"
     | 196 ->
-        "Syntax parsing error.\n"
+        "In a immutable field decleration, the parser expects a colon following the name not 'with'.\n"
     | 197 ->
-        "Syntax parsing error.\n"
+        "In an immutable field declaration the parser expects a valid type name. 'with' is an invalid type name, being a keyword.\n"
     | 198 ->
-        "Syntax parsing error.\n"
+        "Following the declaration of an immutable field, the parser expects another one seperated by a comma or the end of the declarations with a right parenthesis. 'with' is neither of the two but a keyword.\n"
     | 201 ->
-        "Syntax parsing error.\n"
+        "Following a comma in the list of immutable fields, the parser expects another field name, colon and a type not 'with'.\n"
     | 289 ->
-        "Syntax parsing error.\n"
+        "Expression terms cannot begin with 'with', a keyword.\n"
     | 82 ->
-        "Syntax parsing error.\n"
+        "Type functions expect a type id, 'with' is not a valid type id but rather a keyword.\n"
     | 83 ->
-        "Syntax parsing error.\n"
+        "Type functions following the type id, expect an arrow not the keyword 'with'.\n"
     | 84 ->
-        "Syntax parsing error.\n"
+        "Type functions following their type id and arrow, expect an expression. 'with' is a keyword.\n"
     | 291 ->
         "Syntax parsing error.\n"
     | 155 ->

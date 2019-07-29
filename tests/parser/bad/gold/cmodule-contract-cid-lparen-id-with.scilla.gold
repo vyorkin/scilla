@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "error_message":
+        "In a immutable field decleration, the parser expects a colon following the name not 'with'.\n",
+      "start_location": {
+        "file": "parser/bad/cmodule-contract-cid-lparen-id-with.scilla",
+        "line": 4,
+        "column": 12
+      },
+      "end_location": { "file": "", "line": 0, "column": 0 }
+    }
+  ],
+  "warnings": []
+}

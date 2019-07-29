@@ -45,7 +45,8 @@ let parse_lexbuf checkpoint_starter lexbuf filename =
     let state_number = MInter.current_state_number env in
     let error_message =
       try message state_number with
-      | Caml.Not_found -> "Syntax error." in
+      | Caml.Not_found ->
+      (Printf.sprintf "Syntax error, state number %d" state_number) in
     fail_err error_message lexbuf in
   try MInter.loop_handle success failure supplier checkpoint
   with
