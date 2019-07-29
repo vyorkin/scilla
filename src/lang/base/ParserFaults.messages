@@ -2291,7 +2291,7 @@ cmodule: SCILLA_VERSION WITH
 ## SCILLA_VERSION
 ##
 
-Syntax parsing error.
+After 'scilla_version' a numeric literal (e.g. 0) is expected rather than 'with'.
 
 cmodule: WITH
 ##

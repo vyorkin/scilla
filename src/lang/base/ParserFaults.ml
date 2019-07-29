@@ -9,7 +9,7 @@ let message =
     | 0 ->
         "Syntax parsing error.\n"
     | 1 ->
-        "Syntax parsing error.\n"
+        "After 'scilla_version' a numeric literal (e.g. 0) is expected rather than 'with'.\n"
     | 2 ->
         "Syntax parsing error.\n"
     | 192 ->
