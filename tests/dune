@@ -1,9 +1,12 @@
-(executable
-  (name testsuite)
-  (preprocess (pps ppx_sexp_conv ppx_let ppx_deriving.show))
+(executables
+  (names testsuite stateIPCMockServer)
+  (preprocess (pps ppx_sexp_conv ppx_let ppx_deriving.show
+               ppx_deriving_rpc ppx_deriving_protobuf))
   (libraries core oUnit scilla_util testcontracts
              testexps testexpsfail
              testtypes testtypefail
              testpmfail testgasexpr testgascontracts
-             testchecker testinteger256)
+             testchecker testinteger256
+             ppx_let scilla_base scilla_eval 
+             rpclib unix rpclib.json rresult ocaml-protoc)
 )
