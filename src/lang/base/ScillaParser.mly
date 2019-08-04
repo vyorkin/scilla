@@ -2,16 +2,16 @@
   This file is part of scilla.
 
   Copyright (c) 2018 - present Zilliqa Research Pvt. Ltd.
-  
+
   scilla is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.
- 
+
   scilla is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License along with
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
@@ -240,6 +240,9 @@ simple_exp :
        | Some ls -> ls) in
     (Constr (c, targs, args), toLoc $startpos)
   }
+(* Type application (unified syntax) *)
+| f = sid; LBRACE; targs = nonempty_list(targ); RBRACE;
+  { (TApp ((Ident (f, toLoc $startpos)), targs), toLoc $startpos) }
 (* Match expression *)
 | MATCH; x = sid; WITH; cs=list(exp_pm_clause); END
   { (MatchExpr (Ident (x, toLoc $startpos(x)), cs), toLoc $startpos) }
@@ -354,7 +357,7 @@ param_pair:
 component:
 | t = transition
   { t }
-| p = procedure 
+| p = procedure
   { p }
 
 procedure:
@@ -440,4 +443,3 @@ cmodule:
       libs = ls;
       elibs = els;
       contr = c } }
-
