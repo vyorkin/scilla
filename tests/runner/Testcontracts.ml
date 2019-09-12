@@ -2,29 +2,45 @@
   This file is part of scilla.
 
   Copyright (c) 2018 - present Zilliqa Research Pvt. Ltd.
-  
+
   scilla is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.
- 
+
   scilla is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License along with
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
 
 open Core
+open Core_profiler.Std_offline
 open OUnit2
 open ScillaUtil.FilePathInfix
 open TestUtil
 open OUnitTest
 
+module PG = Timer.Group
+
+(* Profiler groups *)
+let pg = Timer.Group.create ~name:"test"
+
+(* Profiler probes *)
+let p_args_state_b = PG.add_probe pg ~name:"args-state-b" ()
+let p_args_state_e = PG.add_probe pg ~name:"args-state-e" ()
+
+let p_out_b = PG.add_probe pg ~name:"out-b" ()
+let p_out_e = PG.add_probe pg ~name:"out-e" ()
+
+let p_test_b = PG.add_probe pg ~name:"test-b" ()
+let p_test_e = PG.add_probe pg ~name:"test-e" ()
+
 let testsuit_gas_limit = "8000"
-let ipc_socket_addr = "/tmp/scillaipcsocket"
+let ipc_socket_addr = "/home/vyorkin/zilliqa.sock"
 
 let succ_code : Caml.Unix.process_status = WEXITED 0
 let fail_code : Caml.Unix.process_status = WEXITED 1
@@ -45,6 +61,9 @@ let rec build_contract_tests env name exit_code i n additional_libs =
       testname >::
       (* function to run scilla-runner and check exit code *)
       (fun test_ctxt ->
+        PG.reset pg;
+        StateIPCTest.reset_profiler_group ();
+        Timer.record p_test_b;
         let tests_dir = FilePath.make_relative (Sys.getcwd ()) (env.tests_dir test_ctxt) in
         let contract_dir = tests_dir ^/ "contracts" in
         let dir = tests_dir ^/ "runner" ^/ name in
@@ -71,6 +90,7 @@ let rec build_contract_tests env name exit_code i n additional_libs =
           else env.ext_ipc_server test_ctxt
         in
         let state_json_path = dir ^/ "state_" ^ istr ^. "json" in
+        (* Timer.record p_args_state_b; *)
         let args_state =
           if ipc_mode then
             let balance = StateIPCTest.setup_and_initialize
@@ -79,7 +99,7 @@ let rec build_contract_tests env name exit_code i n additional_libs =
           else
             args_basic @ ["-istate" ; state_json_path]
         in
-
+        (* Timer.record p_args_state_e; *)
         let args' =
           List.fold_right additional_libs ~init:args_state
             ~f:(fun lib_name cur_args ->
@@ -102,6 +122,7 @@ let rec build_contract_tests env name exit_code i n additional_libs =
                 then In_channel.read_all output_file
                 else BatStream.to_string s
               in
+              (* Timer.record p_out_b; *)
               let out =
                 if ipc_mode then
                 (* The output of the interpreter in IPC mode will only contain "_balance" as
@@ -110,9 +131,11 @@ let rec build_contract_tests env name exit_code i n additional_libs =
                     |> StateIPCTest.append_full_state ~goldoutput_file ~interpreter_output
                 else interpreter_output
               in
+              (* Timer.record p_out_e; *)
               if env.update_gold test_ctxt && not ipc_mode
               then output_updater goldoutput_file test_name out
-              else output_verifier goldoutput_file msg (env.print_diff test_ctxt) out))
+              else output_verifier goldoutput_file msg (env.print_diff test_ctxt) out);
+        Timer.record p_test_e)
       in
       (* If this test is expected to succeed, we know that the JSONs are all "good".
        * So test both the JSON parsers, one that does validation, one that doesn't.
@@ -120,9 +143,9 @@ let rec build_contract_tests env name exit_code i n additional_libs =
       if exit_code = succ_code
       then
         (test ~disable_validate_json:true ~ipc_mode:true) ::
-        (test ~disable_validate_json:false ~ipc_mode:true) ::
-        (test ~disable_validate_json:true ~ipc_mode:false) ::
-        (test ~disable_validate_json:false ~ipc_mode:false) ::
+        (* (test ~disable_validate_json:false ~ipc_mode:true) ::
+         * (test ~disable_validate_json:true ~ipc_mode:false) ::
+         * (test ~disable_validate_json:false ~ipc_mode:false) :: *)
         (build_contract_tests env name exit_code (i+1) n additional_libs)
       else
         (test ~disable_validate_json:false ~ipc_mode:false) ::
@@ -194,48 +217,57 @@ let build_misc_tests env =
       ) in
   [test 1;test 2;test 3]
 
+let add_tests' ?(n = 20) env =
+  "contract_tests" >:::[
+    "just_crowdfunding" >:::
+      List.init n ~f:(fun i ->
+          let istr = Int.to_string i in
+          let name = "crowdfunding" ^ "_" ^ istr in
+          name >:::(build_contract_tests env "crowdfunding" succ_code 1 6 [])
+        )
+  ]
+
 let add_tests env =
   "contract_tests" >:::[
     "these_tests_must_SUCCEED" >:::[
       "crowdfunding" >:::(build_contract_tests env "crowdfunding" succ_code 1 6 []);
       "crowdfunding_init" >:(build_contract_init_test env succ_code "crowdfunding" false);
       "crowdfunding_proc" >:::(build_contract_tests env "crowdfunding_proc" succ_code 1 6 []);
-      "zil-game" >:::(build_contract_tests env "zil-game" succ_code 1 9 []);
-      "zil-game_init" >:(build_contract_init_test env succ_code "zil-game" false);
+      (* "zil-game" >:::(build_contract_tests env "zil-game" succ_code 1 9 []);
+       * "zil-game_init" >:(build_contract_init_test env succ_code "zil-game" false); *)
       "creationtest_init" >:(build_contract_init_test env succ_code "creationtest" false);
-      "testlib2_init" >:(build_contract_init_test env succ_code "TestLib2" true);
+      (* "testlib2_init" >:(build_contract_init_test env succ_code "TestLib2" true); *)
       "cfinvoke" >:::(build_contract_tests env "cfinvoke" succ_code 1 4 []);
       "ping" >:::(build_contract_tests env "ping" succ_code 0 3 []);
       "pong" >:::(build_contract_tests env "pong" succ_code 0 3 []);
       "helloWorld" >:::(build_contract_tests env "helloWorld" succ_code 1 4 []);
       "auction" >:::(build_contract_tests env "auction" succ_code 1 8 []);
-      "mappair" >:::(build_contract_tests env "mappair" succ_code 1 7 []);
-      "bookstore" >:::(build_contract_tests env "bookstore" succ_code 1 12 []);
-      "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 1 12 []);
-      "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 21 27 []);
-      "schnorr" >:::(build_contract_tests env "schnorr" succ_code 1 3 []);
-      "ecdsa" >:::(build_contract_tests env "ecdsa" succ_code 1 4 []);
+      (* "mappair" >:::(build_contract_tests env "mappair" succ_code 1 7 []); *)
+      (* "bookstore" >:::(build_contract_tests env "bookstore" succ_code 1 12 []); *)
+      (* "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 1 12 []);
+       * "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 21 27 []); *)
+      (* "schnorr" >:::(build_contract_tests env "schnorr" succ_code 1 3 []); *)
+      (* "ecdsa" >:::(build_contract_tests env "ecdsa" succ_code 1 4 []); *)
       "empty_contract" >::: (build_contract_tests env "empty" succ_code 1 1 []);
-      "fungible-token" >:::(build_contract_tests env "fungible-token" succ_code 0 8 []);
+      (* "fungible-token" >:::(build_contract_tests env "fungible-token" succ_code 0 8 []); *)
       "inplace-map" >:::(build_contract_tests env "inplace-map" succ_code 1 14 []);
-      "wallet" >:::(build_contract_tests env "wallet" succ_code 1 11 []);
+      (* "wallet" >:::(build_contract_tests env "wallet" succ_code 1 11 []); *)
       "one_msg_test" >::: (build_contract_tests env "one-msg" succ_code 1 1 []);
       "one_msg1_test" >::: (build_contract_tests env "one-msg1" succ_code 1 1 []);
-      "simple-dex" >:::(build_contract_tests env "simple-dex" succ_code 1 8 []);
-      "shogi" >::: (build_contract_tests env "shogi" succ_code 1 4 ["shogi_lib"]);
-      "shogi_proc" >::: (build_contract_tests env "shogi_proc" succ_code 1 4 ["shogi_lib"]);
+      (* "simple-dex" >:::(build_contract_tests env "simple-dex" succ_code 1 8 []); *)
+      (* "shogi" >::: (build_contract_tests env "shogi" succ_code 1 4 ["shogi_lib"]); *)
+      (* "shogi_proc" >::: (build_contract_tests env "shogi_proc" succ_code 1 4 ["shogi_lib"]); *)
       "map_key_test" >::: (build_contract_tests env "map_key_test" succ_code 1 1 []);
-      "earmarked-coin" >:::(build_contract_tests env "earmarked-coin" succ_code 1 6 []);
-      "map_corners_test" >:::(build_contract_tests env "map_corners_test" succ_code 1 18 []);
+      (* "earmarked-coin" >:::(build_contract_tests env "earmarked-coin" succ_code 1 6 []); *)
+      (* "map_corners_test" >:::(build_contract_tests env "map_corners_test" succ_code 1 18 []); *)
     ];
     "these_tests_must_FAIL" >:::[
       "helloWorld_f" >:::(build_contract_tests env "helloWorld" fail_code 5 12 []);
-      "mappair" >:::(build_contract_tests env "mappair" fail_code 8 8 []);
-      "mappair" >:::(build_contract_tests env "mappair" fail_code 12 14 []);
+      (* "mappair" >:::(build_contract_tests env "mappair" fail_code 8 8 []);
+       * "mappair" >:::(build_contract_tests env "mappair" fail_code 12 14 []); *)
       "multiple_msgs_test" >::: (build_contract_tests env "multiple-msgs" fail_code 1 1 []);
       "exception-example" >::: (build_contract_tests env "exception-example" fail_code 1 2 []);
       "testlib1_init" >:(build_contract_init_test env fail_code "0x565556789012345678901234567890123456abcd" true);
     ];
     "misc_tests" >::: build_misc_tests env;
   ]
-

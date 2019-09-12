@@ -2,22 +2,23 @@
   This file is part of scilla.
 
   Copyright (c) 2018 - present Zilliqa Research Pvt. Ltd.
-  
+
   scilla is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.
- 
+
   scilla is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License along with
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
 open Syntax
 open Core
+open Core_profiler.Std_offline
 open ErrorUtils
 open EvalUtil
 open MonadUtil
@@ -32,10 +33,18 @@ open EvalTypeUtilities
 open EvalSyntax
 
 module CU = ScillaContractUtil (ParserUtil.ParserRep) (ParserUtil.ParserRep)
-    
+module PG = Timer.Group
+
+(* Profiler groups *)
+let pg = PG.create ~name:"eval"
+
+(* Profiler probes *)
+let p_init_module_b = PG.add_probe pg ~name:"init-module-b" ()
+let p_init_module_e = PG.add_probe pg ~name:"init-module-e" ()
+
 (***************************************************)
-(*                    Utilities                    *)      
-(***************************************************)    
+(*                    Utilities                    *)
+(***************************************************)
 
 let reserved_names =
   List.map ~f:(fun entry ->
@@ -45,7 +54,7 @@ let reserved_names =
     RecursionPrinciples.recursion_principles
 
 (* Printing result *)
-let pp_result r exclude_names = 
+let pp_result r exclude_names =
   let enames = List.append exclude_names reserved_names in
   match r with
   | Error (s, _) -> sprint_scilla_error_list s
@@ -111,26 +120,26 @@ let rec exp_eval erep env  =
       pure (Msg payload_resolved, env)
   | Fun (formal, _, body) ->
       (* Apply to an argument *)
-      let runner arg = 
+      let runner arg =
         let env1 = Env.bind env (get_id formal) arg in
         let%bind (v, _) = exp_eval_wrapper body env1 in
         pure v
-      in      
+      in
       pure (Clo runner, env)
   | App (f, actuals) ->
       (* Resolve the actuals *)
       let%bind args =
         mapM actuals ~f:(fun arg -> Env.lookup env arg) in
       let%bind ff = Env.lookup env f in
-      (* Apply iteratively, also evaluating curried lambdas *)      
+      (* Apply iteratively, also evaluating curried lambdas *)
       let%bind fully_applied =
         List.fold_left args ~init:(pure ff)
           ~f:(fun res arg ->
               let%bind v = res in
               try_apply_as_closure v arg) in
-      pure (fully_applied, env)          
+      pure (fully_applied, env)
   | Constr (cname, ts, actuals) ->
-      let open Datatypes.DataTypeDictionary in 
+      let open Datatypes.DataTypeDictionary in
       let%bind (_, constr) = fromR @@ lookup_constructor cname in
       let alen = List.length actuals in
       if (constr.arity <> alen)
@@ -154,7 +163,7 @@ let rec exp_eval erep env  =
       (* Update the environment for the branch *)
       let env' = List.fold_left bnds ~init:env
           ~f:(fun z (i, w) -> Env.bind z (get_id i) w) in
-      exp_eval_wrapper e_branch env'      
+      exp_eval_wrapper e_branch env'
   | Builtin (i, actuals) ->
       let%bind args = mapM actuals ~f:(fun arg -> Env.lookup env arg) in
       let%bind tps = fromR @@ MonadUtil.mapM args ~f:literal_type in
@@ -167,14 +176,14 @@ let rec exp_eval erep env  =
         match fbody with
         | Clo f -> f arg
         | _ -> fail0 "Cannot apply fxpoint argument to a value"
-      and clo_fix = Clo fix          
+      and clo_fix = Clo fix
       in pure (clo_fix, env)
   | TFun (tv, body) ->
       let typer arg_type =
         let body_subst = subst_type_in_expr tv arg_type body in
         let%bind (v, _) = exp_eval_wrapper body_subst env in
         pure v
-      in      
+      in
       pure (TAbs typer, env)
   | TApp (tf, arg_types) ->
       let%bind ff = Env.lookup env tf in
@@ -182,7 +191,7 @@ let rec exp_eval erep env  =
         List.fold_left arg_types ~init:(pure ff)
           ~f:(fun res arg_type -> let%bind v = res in
               try_apply_as_type_closure v arg_type) in
-      pure (fully_applied, env)          
+      pure (fully_applied, env)
 
 (* Applying a function *)
 and try_apply_as_closure v arg =
@@ -213,7 +222,7 @@ and exp_eval_wrapper expr env =
    the result, but also the remaining gas.
 
 *)
-let init_gas_kont r gas' = (match r with 
+let init_gas_kont r gas' = (match r with
     | Ok z -> Ok (z, gas')
     | Error msg -> Error (msg, gas'))
 
@@ -228,9 +237,9 @@ let init_gas_kont r gas' = (match r with
    the result is passed further to the callee's continuation `k`.
 
 *)
-let exp_eval_wrapper_no_cps expr env k gas = 
+let exp_eval_wrapper_no_cps expr env k gas =
   let eval_res = exp_eval_wrapper expr env init_gas_kont gas in
-  let (res, remaining_gas) = (match eval_res with 
+  let (res, remaining_gas) = (match eval_res with
     | Ok (z, g) -> (Ok z, g)
     | Error (m, g) -> (Error m, g)) in
   k res remaining_gas
@@ -279,14 +288,14 @@ let rec stmt_eval conf stmts =
           let%bind l = Configuration.bc_lookup conf bf in
           let conf' = Configuration.bind conf (get_id x) l in
           let%bind _ = stmt_gas_wrap G_ReadFromBC sloc in
-          stmt_eval conf' sts                            
+          stmt_eval conf' sts
       | MatchStmt (x, clauses) ->
-          let%bind v = Env.lookup conf.env x in 
+          let%bind v = Env.lookup conf.env x in
           let%bind ((_, branch_stmts), bnds) =
             tryM clauses
               ~msg:(fun () -> mk_error0 (sprintf "Value %s\ndoes not match any clause of\n%s."
                       (Env.pp_value v) (pp_stmt s)))
-              ~f:(fun (p, _) -> fromR @@ match_with_pattern v p) in 
+              ~f:(fun (p, _) -> fromR @@ match_with_pattern v p) in
           (* Update the environment for the branch *)
           let conf' = List.fold_left bnds ~init:conf
               ~f:(fun z (i, w) -> Configuration.bind z (get_id i) w) in
@@ -299,7 +308,7 @@ let rec stmt_eval conf stmts =
           let%bind conf' = Configuration.accept_incoming conf in
           let%bind _ = stmt_gas_wrap G_AcceptPayment sloc in
           stmt_eval conf' sts
-      (* Caution emitting messages does not change balance immediately! *)      
+      (* Caution emitting messages does not change balance immediately! *)
       | SendMsgs ms ->
           let%bind ms_resolved = Configuration.lookup conf ms in
           let%bind (conf', scon) = Configuration.send_messages conf ms_resolved in
@@ -349,8 +358,8 @@ and try_apply_as_procedure conf proc proc_rest actuals =
   (* Reset configuration *)
   pure {conf' with env = conf.env; procedures = conf.procedures;
         component_stack = proc.comp_name :: conf.component_stack}
-      
-  
+
+
 (*******************************************************)
 (*          BlockchainState initialization             *)
 (*******************************************************)
@@ -456,10 +465,10 @@ let init_contract clibs elibs cparams' cfields args' init_bal  =
   (* Is there an argument that is not a parameter? *)
   let%bind _ = forallM ~f:(fun a ->
     let%bind atyp = fromR @@ literal_type (snd a) in
-    let emsg () = mk_error0 
+    let emsg () = mk_error0
         (sprintf "Parameter %s : %s is not specified in the contract.\n" (fst a) (pp_typ atyp)) in
     (* For each argument there should be a parameter *)
-    let%bind (_, mp) = tryM ~f:(fun (ps, pt) -> 
+    let%bind (_, mp) = tryM ~f:(fun (ps, pt) ->
         let%bind at = fromR @@ literal_type (snd a) in
         if ((get_id ps) = (fst a) && pt = at)
           then pure true else fail0 ""
@@ -488,7 +497,7 @@ let create_cur_state_fields initcstate curcstate =
      flag it as invalid input state *)
   let%bind _ = forallM ~f:(fun (s, lc) ->
     let%bind t_lc = fromR @@ literal_type lc in
-    let emsg () = mk_error0 
+    let emsg () = mk_error0
         (sprintf "Field %s : %s not defined in the contract\n" s (pp_typ t_lc)) in
     let%bind (_, ex) = tryM ~f:(fun (t, li) ->
         let%bind t1 = fromR @@ literal_type lc in
@@ -505,14 +514,15 @@ let create_cur_state_fields initcstate curcstate =
     else pure true
   ) initcstate in
   (* Get only those fields from initcstate that are not in curcstate *)
-  let filtered_init = List.filter initcstate 
-    ~f:(fun (s, _) -> not (List.exists curcstate 
+  let filtered_init = List.filter initcstate
+    ~f:(fun (s, _) -> not (List.exists curcstate
         ~f:(fun (s1, _) -> s = s1))) in
     (* Combine filtered list and curcstate *)
     pure (filtered_init @ curcstate)
 
 (* Initialize a module with given arguments and initial balance *)
 let init_module md initargs curargs init_bal bstate elibs =
+  Timer.record p_init_module_b;
   let {libs; contr; _} = md in
   let {cparams; cfields; _} = contr in
   let%bind (initcstate, field_vals) =
@@ -521,6 +531,7 @@ let init_module md initargs curargs init_bal bstate elibs =
   (* blockchain input provided is only validated and not used here. *)
   let%bind _ = check_blockchain_entries bstate in
   let cstate = { initcstate with fields = initcstate.fields } in
+    Timer.record p_init_module_e;
     pure (contr, cstate, curfield_vals)
 
 (*******************************************************)
@@ -581,7 +592,7 @@ let check_message_entries cparams_o entries =
       (pp_literal_map entries) (pp_cparams tparams)
   else
     pure entries
-      
+
 (* Get the environment, incoming amount, procedures in scope, and body to execute*)
 let prepare_for_message contr m =
   match m with
@@ -610,13 +621,13 @@ let post_process_msgs cstate outs =
     let balance = sub cstate.balance to_be_transferred in
     pure {cstate with balance}
 
-(* 
+(*
 Handle message:
 * contr : Syntax.contract - code of the contract (containing transitions and procedures)
 * cstate : ContractState.t - current contract state
 * bstate : (string * literal) list - blockchain state
-* m : Syntax.literal - incoming message 
-*)        
+* m : Syntax.literal - incoming message
+*)
 let handle_message contr cstate bstate m =
   let%bind (tenv, incoming_funds, procedures, stmts, tname) = prepare_for_message contr m in
   let open ContractState in
@@ -626,7 +637,7 @@ let handle_message contr cstate bstate m =
       ~f:(fun e (n, l) -> Env.bind e n l) in
   let open Configuration in
 
-  (* Create configuration *)  
+  (* Create configuration *)
   let conf = {
     init_env = actual_env;
     env = actual_env;
@@ -655,4 +666,3 @@ let handle_message contr cstate bstate m =
 
   (*Return new contract state, messages and events *)
   pure (cstate'', new_msgs, new_events, conf'.accepted)
-

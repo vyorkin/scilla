@@ -1,0 +1,33 @@
+external IPC server
+
+┌──────────────────────────────────────────────────────┬────┬───────┬──────────┬─────────┬──────────┬──────────┬─────────┬──────────┐
+│ name                                                 │    │ count │     mean │     min │      max │    stdev │    5 %l │    95 %l │
+├──────────────────────────────────────────────────────┼────┼───────┼──────────┼─────────┼──────────┼──────────┼─────────┼──────────┤
+│ StateIPCTestClient:fetch-b,fetch-e                   │ dt │   208 │  24.55ms │ 18.52ms │  25.95ms │   1.29ms │  23.2ms │  25.85ms │
+│ StateIPCTestClient:fetch-e,fetch-b                   │ dt │   116 │   1.73us │   434ns │    4.3us │   1.23us │   451ns │   3.19us │
+│ StateIPCTestClient:update-b,fetch-b                  │ dt │    92 │  73.17ms │ 29.31ms │ 205.87ms │  31.53ms │  29.9ms │ 104.02ms │
+│ StateIPCTestClient:update-b,update-b                 │ dt │   324 │  13.94ms │   485ns │   46.7ms │  11.83ms │  1.95us │  25.76ms │
+│ StateIPCTest:append_full_state-b,append_full_state-e │ dt │   108 │ 261.45us │ 47.28us │   2.75ms │ 318.05us │ 59.74us │ 500.64us │
+│ StateIPCTest:get_final_finish-b,get_final_finish-e   │ dt │   108 │   47.3ms │  1.47us │ 101.27ms │  28.34ms │  1.58us │ 100.29ms │
+│ StateIPCTest:get_final_finish-e,append_full_state-b  │ dt │   108 │    388ns │    42ns │    925ns │    209ns │    43ns │    693ns │
+│ test:args-state-b,args-state-e                       │ dt │   216 │  20.97ms │   161ns │  101.6ms │  28.71ms │   208ns │  88.62ms │
+│ test:args-state-e,out-b                              │ dt │   216 │  48.68ms │ 28.45ms │ 205.85ms │  29.48ms │ 28.84ms │ 103.43ms │
+│ test:out-b,out-e                                     │ dt │   216 │  23.78ms │  2.02us │ 101.81ms │  31.14ms │   2.8us │ 100.35ms │
+└──────────────────────────────────────────────────────┴────┴───────┴──────────┴─────────┴──────────┴──────────┴─────────┴──────────┘
+
+mock IPC server
+
+┌──────────────────────────────────────────────────────┬────┬───────┬──────────┬─────────┬──────────┬──────────┬─────────┬──────────┐
+│ name                                                 │    │ count │     mean │     min │      max │    stdev │    5 %l │    95 %l │
+├──────────────────────────────────────────────────────┼────┼───────┼──────────┼─────────┼──────────┼──────────┼─────────┼──────────┤
+│ StateIPCTestClient:fetch-b,fetch-e                   │ dt │   208 │ 113.14us │ 37.54us │ 221.12us │  36.77us │ 50.13us │ 172.75us │
+│ StateIPCTestClient:fetch-e,fetch-b                   │ dt │   116 │    465ns │   180ns │   1.45us │    162ns │   211ns │    663ns │
+│ StateIPCTestClient:update-b,fetch-b                  │ dt │    92 │  31.17ms │ 28.38ms │  50.44ms │   2.57ms │ 29.02ms │  34.36ms │
+│ StateIPCTestClient:update-b,update-b                 │ dt │   324 │  72.47us │   122ns │   1.15ms │  86.25us │   184ns │ 169.32us │
+│ StateIPCTest:append_full_state-b,append_full_state-e │ dt │   108 │ 157.14us │ 48.74us │    2.7ms │ 314.16us │ 55.54us │ 260.49us │
+│ StateIPCTest:get_final_finish-b,get_final_finish-e   │ dt │   108 │ 220.62us │  2.78us │ 542.92us │ 122.34us │  3.72us │ 430.41us │
+│ StateIPCTest:get_final_finish-e,append_full_state-b  │ dt │   108 │    109ns │    47ns │    281ns │     37ns │    51ns │    172ns │
+│ test:args-state-b,args-state-e                       │ dt │   216 │ 142.64us │   155ns │   1.38ms │ 191.28us │   181ns │ 436.16us │
+│ test:args-state-e,out-b                              │ dt │   216 │  30.95ms │ 28.27ms │  50.43ms │   2.36ms │ 28.85ms │  34.36ms │
+│ test:out-b,out-e                                     │ dt │   216 │ 192.55us │     2us │   3.07ms │    318us │   3.1us │ 512.52us │
+└──────────────────────────────────────────────────────┴────┴───────┴──────────┴─────────┴──────────┴──────────┴─────────┴──────────┘

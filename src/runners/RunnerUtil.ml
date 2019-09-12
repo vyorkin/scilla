@@ -2,22 +2,23 @@
   This file is part of scilla.
 
   Copyright (c) 2018 - present Zilliqa Research Pvt. Ltd.
-  
+
   scilla is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.
- 
+
   scilla is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License along with
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
 
 open Core
+open Core_profiler.Std_offline
 open Printf
 open Syntax
 open GlobalConfig
@@ -26,6 +27,18 @@ open PrettyPrinters
 open DebugMessage
 open ParserUtil.ParsedSyntax
 open ScillaUtil.FilePathInfix
+
+module PG = Timer.Group
+
+(* Profiler groups *)
+let pg = PG.create ~name:"RunnerUtil"
+
+(* Profiler probes *)
+let p_import_lib_b = PG.add_probe pg ~name:"import-lib-b" ()
+let p_import_lib_end = PG.add_probe pg ~name:"import-lib-e" ()
+
+let p_import_libs_b = PG.add_probe pg ~name:"import-libs-b" ()
+let p_import_libs_end = PG.add_probe pg ~name:"import-libs-e" ()
 
 let get_init_extlibs filename =
   if not (Caml.Sys.file_exists filename)
@@ -41,26 +54,28 @@ let get_init_extlibs filename =
 (* Find (by looking for in StdlibTracker) and parse library named "id.scillib".
  * If "id.json" exists, parse it's extlibs info and provide that also. *)
 let import_lib id =
+  Timer.record p_import_lib_b;
   let name = get_id id in
   let errmsg = sprintf "Failed to import library %s. " name in
   let sloc = get_rep id in
   let (fname, initf) = match StdlibTracker.find_lib_dir name with
     | None -> fatal_error @@ mk_error1(errmsg ^ "Not found.\n") sloc
-    | Some d -> 
+    | Some d ->
       let libf = d ^/ name ^. StdlibTracker.file_extn_library in
       let initf = d ^/ name ^. "json" in
         (libf, get_init_extlibs initf)
-  in
-    match FrontEndParser.parse_file ScillaParser.Incremental.lmodule fname with
+  in let res = match FrontEndParser.parse_file ScillaParser.Incremental.lmodule fname with
     | Error s -> fatal_error (s @ (mk_error1 "Failed to parse.\n") sloc)
     | Ok lmod ->
         plog (sprintf "Successfully imported external library %s\n" name);
-        (lmod, initf)
+        (lmod, initf) in
+  Timer.record p_import_lib_end;
+  res
 
 (* An auxiliary data structure that is homomorphic to libtree, but for namespaces.
    Think of this as a field "namespace" in the "Syntax.libtree". It isn't added
    to the type itself because we want to eliminate the idea of namespaces right here. *)
-type 'a nspace_tree = 
+type 'a nspace_tree =
   {
     nspace : 'a ident option;
     dep_ns : 'a nspace_tree list;
@@ -69,8 +84,8 @@ type 'a nspace_tree =
 (* light-weight namespaces. prefix all entries in lib with their namespace. *)
 let eliminate_namespaces lib_tree ns_tree =
 
-  (* Prefix definitions in lib with namespace (and rewrite their uses). 
-     Also, rewrite uses in lib that are in env. This is for names imported by lib. 
+  (* Prefix definitions in lib with namespace (and rewrite their uses).
+     Also, rewrite uses in lib that are in env. This is for names imported by lib.
      Returns renamed library and a list of names that are defined in this library. *)
   let rename_in_library env lib namespace =
     let (rev_entries, _, def_names) = List.fold lib.lentries ~init:([], env, [])
@@ -152,7 +167,7 @@ let eliminate_namespaces lib_tree ns_tree =
           let pelist' = List.map pelist ~f:(fun (pat, expr) ->
             let pat', binds = rename_in_pattern env pat in
             (* remove all binds from env *)
-            let env' = List.fold_left binds ~init:env 
+            let env' = List.fold_left binds ~init:env
               ~f:(fun accenv b -> List.Assoc.remove accenv ~equal:((=)) b) in
             (pat', rename_in_expr expr env')
           ) in
@@ -200,8 +215,8 @@ let eliminate_namespaces lib_tree ns_tree =
     let this_lib = ltnode.libn in
     let this_namespace = nsnode.nspace in
     let fullns =
-      match this_namespace with 
-      | Some i -> if outerns <> "" then outerns ^ "." ^ (get_id i) else (get_id i) 
+      match this_namespace with
+      | Some i -> if outerns <> "" then outerns ^ "." ^ (get_id i) else (get_id i)
       | None -> outerns
       in
     (* rename deps first *)
@@ -219,11 +234,12 @@ let eliminate_namespaces lib_tree ns_tree =
     in
     ({libn = ltnode'; deps = deps'}, env)
   in
-  List.map2_exn lib_tree ns_tree 
+  List.map2_exn lib_tree ns_tree
     ~f:(fun ltnode nsnode -> fst @@ rename_in_libtree ltnode nsnode "")
 
 (* Import all libraries in "names" (and their dependences). *)
 let import_libs names init_file =
+  Timer.record p_import_libs_b;
   let rec importer names name_map stack =
     let mapped_names =
       List.map names ~f:(fun (n, namespace) ->
@@ -236,10 +252,10 @@ let import_libs names init_file =
     in
     List.fold_left ~f:(fun (libacc, nacc) (name, mapped_name, namespace) ->
       if List.mem stack (get_id name) ~equal:(=) then
-        let errmsg = 
+        let errmsg =
           if get_id (mapped_name) = (get_id name) then
             sprintf "Cyclic dependence found when importing %s." (get_id name)
-          else 
+          else
             sprintf "Cyclic dependence found when importing %s (mapped to %s)."
               (get_id (mapped_name)) (get_id name)
         in
@@ -258,7 +274,9 @@ let import_libs names init_file =
     | None -> []
   in
   let (ltree, nstree) = importer names name_map [] in
-  eliminate_namespaces ltree nstree
+  let res = eliminate_namespaces ltree nstree in
+  Timer.record p_import_libs_b;
+  res
 
 let stdlib_not_found_err () =
   fatal_error (mk_error0
@@ -289,7 +307,7 @@ let import_all_libs ldirs  =
     let names' = get_lib_list dir in
       List.append names names') ~init:[]
   in
-  import_libs names None
+  import_libs names None;
 
 type runner_cli = {
   input_file : string;
@@ -315,7 +333,7 @@ let parse_cli () =
   let r_cf = ref false in
   let r_cf_token_fields = ref [] in
   let speclist = [
-    ("-version", Arg.Unit (fun () -> 
+    ("-version", Arg.Unit (fun () ->
         DebugMessage.pout
           (sprintf "Scilla version: %s\n" PrettyPrinters.scilla_version_string);
           if true then exit 0; (* if "true" to avoid warning on exit 0 *)
@@ -340,7 +358,7 @@ let parse_cli () =
     ("-cf-token-field", Arg.String (fun s -> r_cf_token_fields := s :: !r_cf_token_fields), "Make the cashflow checker consider a field to be money (implicitly sets -cf)");
     ("-jsonerrors", Arg.Unit (fun () -> r_json_errors := true), "Print errors in JSON format");
     ("-contractinfo", Arg.Unit (fun () -> r_contract_info := true), "Print various contract information");
-  ] in 
+  ] in
 
   let mandatory_usage = "Usage:\n" ^ Sys.argv.(0) ^ " -libdir /path/to/stdlib input.scilla\n" in
   let optional_usage = String.concat ~sep:"\n "

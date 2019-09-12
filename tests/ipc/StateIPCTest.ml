@@ -2,16 +2,16 @@
   This file is part of scilla.
 
   Copyright (c) 2018 - present Zilliqa Research Pvt. Ltd.
-  
+
   scilla is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.
- 
+
   scilla is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License along with
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
@@ -21,10 +21,27 @@
 
 open OUnit2
 open Core
+open Core_profiler.Std_offline
 open Syntax
 open Yojson
 
-let parse_typ_wrapper t = 
+module PG = Timer.Group
+
+(* Profiler groups *)
+let pg = Timer.Group.create ~name:"StateIPCTest"
+
+(* Profiler probes *)
+let p_append_full_state_b = PG.add_probe pg ~name:"append_full_state-b" ()
+let p_append_full_state_e = PG.add_probe pg ~name:"append_full_state-e" ()
+
+let p_get_final_finish_b = PG.add_probe pg ~name:"get_final_finish-b" ()
+let p_get_final_finish_e = PG.add_probe pg ~name:"get_final_finish-e" ()
+
+let reset_profiler_group () =
+  PG.reset pg;
+  PG.reset StateIPCTestClient.pg
+
+let parse_typ_wrapper t =
   match FrontEndParser.parse_type t with
   | Error _ -> assert_failure (sprintf "StateIPCTest: Invalid type in json: %s\n" t)
   | Ok s -> s
@@ -167,16 +184,16 @@ let setup_and_initialize ~start_mock_server ~sock_addr ~state_json_path =
   let state = json_file_to_state state_json_path in
 
   (* Setup a mock server within the testsuite? *)
-  if start_mock_server then StateIPCTestServer.start_server ~sock_addr;
+  if start_mock_server then StateIPCTestServer.start_server ~sock_addr ~num_pending_requests:5;
 
-  let fields = List.filter_map state ~f:(fun (s, t, _) -> 
+  let fields = List.filter_map state ~f:(fun (s, t, _) ->
     if s = ContractUtil.balance_label then None else Some (s, t))
   in
   let () = StateIPCTestClient.initialize ~fields ~sock_addr in
   (* Update the server (via the test client) with the state values we want. *)
   List.iter state ~f:(fun (fname, _, value) ->
       if fname <> ContractUtil.balance_label
-      then StateIPCTestClient.update ~fname ~value 
+      then StateIPCTestClient.update ~fname ~value
       else ()
     );
   (* Find the balance from state and return it. *)
@@ -193,13 +210,16 @@ let setup_and_initialize ~start_mock_server ~sock_addr ~state_json_path =
 
 (* Get full state, and if a server was started in ~setup_and_initialize, shut it down. *)
 let get_final_finish ~sock_addr =
+  Timer.record p_get_final_finish_b;
   let state = StateIPCTestClient.fetch_all () in
   StateIPCTestServer.stop_server ~sock_addr;
+  Timer.record p_get_final_finish_e;
   state
 
 (* Given the interpreter's output, parse the JSON, append svars to it and print out new JSON.
  * The gold output is used to re-order state variables and map keys from StateIPCTestServer. *)
 let append_full_state ~goldoutput_file ~interpreter_output svars =
+  Timer.record p_append_full_state_b;
   (* Let's first re-order variables based on gold. *)
   let goldj =  json_from_file goldoutput_file in
   let goldjs = json_to_list @@ json_member "states" goldj in
@@ -222,4 +242,6 @@ let append_full_state ~goldoutput_file ~interpreter_output svars =
   ) in
   (* Let's now sort within each state variable (for maps). *)
   let sorted_output_j = sort_mapkeys goldj unsorted_output_j in
-  Basic.pretty_to_string sorted_output_j
+  let res = Basic.pretty_to_string sorted_output_j in
+  Timer.record p_append_full_state_e;
+  res

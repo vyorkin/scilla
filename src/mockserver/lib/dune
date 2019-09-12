@@ -1,0 +1,10 @@
+(library
+ (name scilla_mock_server)
+ (wrapped false)
+ (libraries
+   core core_profiler scilla_base oUnit
+   rpclib unix rpclib.json rresult
+   ocaml-protoc scilla_eval)
+ (preprocess
+  (pps ppx_sexp_conv ppx_let ppx_deriving.show))
+ (synopsis "Scilla IPC mock server and client"))

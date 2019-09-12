@@ -72,7 +72,7 @@ module MakeServer() = struct
     let response = (Idl.server IPCTestServer.implementation) request in
     send_delimited oc (Jsonrpc.string_of_response response)
 
-  let prepare_server sock_addr ~backlog =
+  let prepare sock_addr ~backlog =
     (try Unix.unlink sock_addr with Unix.Unix_error(Unix.ENOENT, _, _) -> ());
     let socket = Unix.socket ~domain: Unix.PF_UNIX ~kind: Unix.SOCK_STREAM ~protocol:0 in
     Unix.bind socket ~addr:(Unix.ADDR_UNIX sock_addr);
@@ -159,7 +159,7 @@ module MakeServer() = struct
 
 end
 
-let start_server ~sock_addr ~num_pending_requests =
+let start ~sock_addr ~num_pending_requests =
   (* Check if we already have a thread to serve this socket. *)
   match Hashtbl.find_opt thread_pool sock_addr with
   | Some _ -> () (* There's already a server running. Nothing to do. *)
@@ -167,11 +167,11 @@ let start_server ~sock_addr ~num_pending_requests =
     let module ServerModule = MakeServer() in
     ServerModule.IPCTestServer.fetch_state_value ServerModule.fetch_state_value;
     ServerModule.IPCTestServer.update_state_value ServerModule.update_state_value;
-    let server = ServerModule.prepare_server sock_addr ~backlog:num_pending_requests in
+    let server = ServerModule.prepare sock_addr ~backlog:num_pending_requests in
     let _ = Thread.create server () in
     Hashtbl.replace thread_pool sock_addr ServerModule.table
 
-let stop_server ~sock_addr =
+let stop ~sock_addr =
   match Hashtbl.find_opt thread_pool sock_addr with
   | Some h -> (* Just reset the table of this server. *)
     Hashtbl.clear h;

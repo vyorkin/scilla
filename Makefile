@@ -8,7 +8,7 @@ default: all
 # multiple subcommands and uses the library.
 # The library can be loaded in utop for interactive testing.
 all:
-	dune build --profile release @install
+	dune build -j1 --profile release @install
 	@test -L bin || ln -s _build/install/default/bin .
 
 # Build only scilla-checker and scilla-runner
@@ -42,7 +42,7 @@ gold: dev
 # don't want multiple threads of the testsuite connecting to the same server concurrently.
 test_extipcserver: dev
 	dune exec tests/testsuite.exe -- -print-diff true -runner sequential \
-	-ext-ipc-server "/tmp/zilliqa.sock" \
+	-ext-ipc-server "/home/vyorkin/zilliqa.sock" \
 	-only-test "all_tests:0:contract_tests:0:these_tests_must_SUCCEED"
 
 # Clean up

@@ -1,0 +1,5 @@
+(executable
+ (name mock_server_runner)
+ (public_name mock-server-runner)
+ (libraries core scilla_mock_server)
+ (preprocess (pps ppx_let)))
