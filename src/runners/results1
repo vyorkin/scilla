@@ -1,0 +1,68 @@
+profiler:
+
+{ Cli.input_init = "/home/vyorkin/projects/work/zilliqa/scilla/tests/runner/crowdfunding/init.json";
+  input_state = "";
+  input_message = "/home/vyorkin/projects/work/zilliqa/scilla/tests/runner/crowdfunding/message_1.json";
+  input_blockchain = "/home/vyorkin/projects/work/zilliqa/scilla/tests/runner/crowdfunding/blockchain_1.json";
+  output = "/run/user/1000/crowdfunding_output_1.json";
+  input = "/home/vyorkin/projects/work/zilliqa/scilla/tests/contracts/crowdfunding.scilla";
+  libdirs = ["/home/vyorkin/projects/work/zilliqa/scilla/src/stdlib"];
+  gas_limit = <opaque>; balance = <opaque>; pp_json = true;
+  ipc_address = "/home/vyorkin/zilliqa.sock" }
+
+
+
+runner:
+
+{ Cli.input_init = "tests/runner/crowdfunding/init.json";
+  input_state = "";
+  input_message = "tests/runner/crowdfunding/message_1.json";
+  input_blockchain = "tests/runner/crowdfunding/blockchain_1.json";
+  output = "tmp/output_1.json";
+  input = "tests/contracts/crowdfunding.scilla";
+  libdirs = ["src/stdlib"];
+  gas_limit = <opaque>; balance = <opaque>; pp_json = true;
+  ipc_address = "/home/vyorkin/zilliqa.sock" }
+
+
+External
+
+┌─────────────────────────────────────────────────┬────┬───────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+│ name                                            │    │ count │     mean │      min │      max │    stdev │     5 %l │    95 %l │
+├─────────────────────────────────────────────────┼────┼───────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+│ StateIPCClient:fetch                            │ dt │   250 │  24.97ms │   22.6ms │  25.75ms │ 355.07us │  24.49ms │  25.57ms │
+│ StateIPCClient:update                           │ dt │   150 │  25.38ms │  24.95ms │  25.81ms │ 221.09us │  25.03ms │  25.75ms │
+│ eval:init-module                                │ dt │   250 │  37.05us │   21.1us │ 228.43us │  30.27us │  22.98us │ 104.26us │
+│ StateIPCTestClient:update                       │ dt │   999 │   22.8ms │    415ns │  77.49ms │   19.5ms │    596ns │  51.97ms │
+│ RunnerUtil:import-lib                           │ dt │   250 │  76.09us │  51.62us │ 246.92us │  34.68us │  54.96us │ 152.24us │
+│ RunnerUtil:import-libs                          │ dt │   250 │  44.91us │  27.67us │ 281.07us │  22.74us │  28.49us │  81.62us │
+│ scilla_runner:parse-contract                    │ dt │   250 │ 274.31us │ 182.53us │ 592.92us │  63.72us │ 190.53us │ 395.23us │
+│ scilla_runner:check-libs                        │ dt │   250 │  29.67us │  15.06us │ 395.32us │  33.52us │  16.62us │  79.83us │
+│ scilla_runner:gas-remaining                     │ dt │   250 │  13.56us │   4.32us │  41.33us │   5.44us │    4.8us │  20.43us │
+│ scilla_runner:get-initargs                      │ dt │   250 │  29.72us │  22.11us │ 125.53us │  16.43us │  22.52us │  62.28us │
+│ scilla_runner:get-state                         │ dt │   250 │   9.83us │   7.89us │  38.12us │   3.96us │   8.12us │   13.9us │
+│ scilla_runner:get-message                       │ dt │   250 │  10.19us │   7.68us │  99.02us │   6.64us │   8.04us │  13.41us │
+│ ipc mode:handle-msg-ipc                         │ dt │   250 │  38.48us │  21.93us │ 230.04us │  30.39us │  23.76us │ 107.09us │
+│ contract-test                                   │ dt │   250 │  91.44ms │  50.61ms │ 127.73ms │  25.69ms │     51ms │ 127.02ms │
+└─────────────────────────────────────────────────┴────┴───────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘
+
+Mock
+
+┌─────────────────────────────────────────────────┬────┬───────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+│ name                                            │    │ count │     mean │      min │      max │    stdev │     5 %l │    95 %l │
+├─────────────────────────────────────────────────┼────┼───────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+│ StateIPCClient:fetch                            │ dt │   250 │  62.29us │  30.46us │ 167.78us │  28.75us │   32.6us │ 113.75us │
+│ StateIPCClient:update                           │ dt │   150 │  56.76us │  30.55us │ 137.81us │  23.99us │  31.12us │  93.99us │
+│ eval:init-module                                │ dt │   250 │  26.16us │   17.8us │ 151.83us │   20.2us │  18.12us │  74.19us │
+│ StateIPCTestClient:update                       │ dt │   999 │ 177.49us │    144ns │   1.34ms │ 259.63us │    183ns │ 709.14us │
+│ RunnerUtil:import-lib                           │ dt │   250 │  61.58us │  48.34us │ 233.01us │  26.45us │  48.64us │ 113.24us │
+│ RunnerUtil:import-libs                          │ dt │   250 │   28.7us │  23.88us │ 260.81us │  18.59us │  24.08us │  49.68us │
+│ scilla_runner:parse-contract                    │ dt │   250 │  202.8us │ 164.78us │ 464.17us │  46.11us │ 165.74us │ 296.04us │
+│ scilla_runner:check-libs                        │ dt │   250 │  18.62us │  12.16us │ 259.03us │  24.34us │  12.47us │  55.05us │
+│ scilla_runner:gas-remaining                     │ dt │   250 │   2.62us │   2.34us │   8.82us │    461ns │   2.41us │    2.9us │
+│ scilla_runner:get-initargs                      │ dt │   250 │  26.81us │  20.77us │ 111.48us │  15.19us │  20.94us │  65.51us │
+│ scilla_runner:get-state                         │ dt │   250 │   8.26us │   6.79us │  34.39us │   4.15us │   6.96us │   10.2us │
+│ scilla_runner:get-message                       │ dt │   250 │   8.11us │      7us │  29.55us │   2.41us │   7.13us │   9.02us │
+│ ipc mode:handle-msg-ipc                         │ dt │   250 │  27.03us │   18.5us │ 152.52us │  20.35us │  18.78us │  74.97us │
+│ contract-test                                   │ dt │   250 │ 722.79us │  460.4us │   4.05ms │ 250.98us │ 522.42us │ 967.88us │
+└─────────────────────────────────────────────────┴────┴───────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘

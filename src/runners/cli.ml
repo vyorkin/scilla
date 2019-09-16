@@ -16,6 +16,16 @@
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
+open Core_profiler.Std_offline
+
+module Dt = Delta_timer
+
+module Prof = struct
+  open Dt
+
+  let parse = create ~name:"Cli.parse"
+end
+
 let f_input_init = ref ""
 let f_input_state = ref ""
 let f_input_message = ref ""
@@ -95,13 +105,14 @@ type ioFiles = {
     output : string;
     input : string;
     libdirs : string list;
-    gas_limit : Stdint.uint64;
-    balance : Stdint.uint128;
+    gas_limit : Stdint.uint64 [@opaque];
+    balance : Stdint.uint128 [@opaque];
     pp_json : bool;
     ipc_address : string;
-}
+} [@@deriving show]
 
 let parse () =
+  Dt.start Prof.parse;
   let speclist = [
     ("-version", Arg.Unit (fun () ->
         DebugMessage.pout
@@ -163,6 +174,7 @@ let parse () =
   let () = process_json_errors() in
   let () = process_json_validation() in
   let () = validate_main usage in
+  Dt.stop Prof.parse;
     {input_init = !f_input_init; input_state = !f_input_state; input_message = !f_input_message;
      input_blockchain = !f_input_blockchain; output = !f_output; input = !f_input;
      balance = (match !v_balance with | Some v -> v | None -> Stdint.Uint128.zero);

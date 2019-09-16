@@ -28,6 +28,6 @@ type ioFiles = {
     balance : Stdint.uint128;
     pp_json : bool;
     ipc_address : string;
-}
+} [@@deriving show]
 
 val parse : unit -> ioFiles

@@ -28,17 +28,15 @@ open DebugMessage
 open ParserUtil.ParsedSyntax
 open ScillaUtil.FilePathInfix
 
-module PG = Timer.Group
+module Dt = Delta_timer
 
-(* Profiler groups *)
-let pg = PG.create ~name:"RunnerUtil"
+module Prof = struct
+  open Dt
 
-(* Profiler probes *)
-let p_import_lib_b = PG.add_probe pg ~name:"import-lib-b" ()
-let p_import_lib_end = PG.add_probe pg ~name:"import-lib-e" ()
-
-let p_import_libs_b = PG.add_probe pg ~name:"import-libs-b" ()
-let p_import_libs_end = PG.add_probe pg ~name:"import-libs-e" ()
+  let import_lib = create ~name:"RunnerUtil.import_lib"
+  let import_libs = create ~name:"RunnerUtil.import_libs"
+  let parse_cli = create ~name:"RunnerUtil.parse_cli"
+end
 
 let get_init_extlibs filename =
   if not (Caml.Sys.file_exists filename)
@@ -54,7 +52,7 @@ let get_init_extlibs filename =
 (* Find (by looking for in StdlibTracker) and parse library named "id.scillib".
  * If "id.json" exists, parse it's extlibs info and provide that also. *)
 let import_lib id =
-  Timer.record p_import_lib_b;
+  Dt.start Prof.import_lib;
   let name = get_id id in
   let errmsg = sprintf "Failed to import library %s. " name in
   let sloc = get_rep id in
@@ -69,7 +67,7 @@ let import_lib id =
     | Ok lmod ->
         plog (sprintf "Successfully imported external library %s\n" name);
         (lmod, initf) in
-  Timer.record p_import_lib_end;
+  Dt.stop Prof.import_lib;
   res
 
 (* An auxiliary data structure that is homomorphic to libtree, but for namespaces.
@@ -239,7 +237,7 @@ let eliminate_namespaces lib_tree ns_tree =
 
 (* Import all libraries in "names" (and their dependences). *)
 let import_libs names init_file =
-  Timer.record p_import_libs_b;
+  Dt.start Prof.import_libs;
   let rec importer names name_map stack =
     let mapped_names =
       List.map names ~f:(fun (n, namespace) ->
@@ -275,7 +273,7 @@ let import_libs names init_file =
   in
   let (ltree, nstree) = importer names name_map [] in
   let res = eliminate_namespaces ltree nstree in
-  Timer.record p_import_libs_b;
+  Dt.stop Prof.import_libs;
   res
 
 let stdlib_not_found_err () =
@@ -323,6 +321,7 @@ type runner_cli = {
 
 
 let parse_cli () =
+  Dt.start Prof.parse_cli;
   let r_stdlib_dir = ref [] in
   let r_gas_limit = ref (Stdint.Uint64.zero) in
   let r_input_file = ref "" in
@@ -371,6 +370,7 @@ let parse_cli () =
   if !r_input_file = "" then fatal_error_noformat usage;
   if !r_cf_token_fields <> [] then r_cf := true;
   GlobalConfig.set_use_json_errors !r_json_errors;
+  Dt.stop Prof.parse_cli;
   { input_file = !r_input_file; stdlib_dirs = !r_stdlib_dir; gas_limit = !r_gas_limit;
     gua_flag = !r_gua; p_contract_info = !r_contract_info;
     cf_flag = !r_cf; cf_token_fields = !r_cf_token_fields;

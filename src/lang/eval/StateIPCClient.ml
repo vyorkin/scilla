@@ -2,20 +2,21 @@
   This file is part of scilla.
 
   Copyright (c) 2018 - present Zilliqa Research Pvt. Ltd.
-  
+
   scilla is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.
- 
+
   scilla is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License along with
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
 open Core
+open Core_profiler.Std_offline
 open Result.Let_syntax
 open MonadUtil
 open Syntax
@@ -28,6 +29,17 @@ open ErrorUtils
 module ER = ParserRep
 
 module IPCClient = IPCIdl(Idl.GenClient ())
+
+module Dt = Delta_timer
+
+module Prof = struct
+  open Dt
+
+  let fetch = create ~name:"StateIPCClient.fetch"
+  let update = create ~name:"StateIPCClient.update"
+  let is_member = create ~name:"StateIPCClient.is_member"
+  let remove = create ~name:"StateIPCClient.remove"
+end
 
 (* Translate JRPC result to our result. *)
 let translate_res res =
@@ -133,6 +145,7 @@ let encode_serialized_query query =
 (* Fetch from a field. "keys" is empty when fetching non-map fields or an entire Map field.
  * If a map key is not found, then None is returned, otherwise (Some value) is returned. *)
 let fetch ~socket_addr ~fname ~keys ~tp =
+  Dt.start Prof.fetch;
   let open Ipcmessage_types in
   let q = {
     name = (get_id fname);
@@ -145,16 +158,19 @@ let fetch ~socket_addr ~fname ~keys ~tp =
     let thunk() = translate_res @@ IPCClient.fetch_state_value (binary_rpc ~socket_addr) q' in
     ipcclient_exn_wrapper thunk
   in
-  match res with
+  let r = match res with
   | (true, res') ->
     let%bind tp' = TypeUtilities.map_access_type tp (List.length keys) in
     let%bind decoded_pb = decode_serialized_value (Bytes.of_string res') in
     let%bind res'' = deserialize_value decoded_pb tp' in
     pure @@ Some (res'')
-  | (false, _) -> pure None
+  | (false, _) -> pure None in
+  Dt.stop Prof.fetch;
+  r
 
 (* Update a field. "keys" is empty when updating non-map fields or an entire Map field. *)
 let update ~socket_addr ~fname ~keys ~value ~tp =
+  Dt.start Prof.update;
   let open Ipcmessage_types in
   let q = {
     name = (get_id fname);
@@ -168,10 +184,12 @@ let update ~socket_addr ~fname ~keys ~value ~tp =
     let thunk() = translate_res @@ IPCClient.update_state_value (binary_rpc ~socket_addr) q' value' in
     ipcclient_exn_wrapper thunk
   in
+  Dt.stop Prof.update;
   pure ()
 
 (* Is a key in a map. keys must be non-empty. *)
 let is_member ~socket_addr ~fname ~keys ~tp =
+  Dt.start Prof.is_member;
   let open Ipcmessage_types in
   let q = {
     name = (get_id fname);
@@ -184,10 +202,12 @@ let is_member ~socket_addr ~fname ~keys ~tp =
     let thunk() = translate_res @@ IPCClient.fetch_state_value (binary_rpc ~socket_addr) q' in
     ipcclient_exn_wrapper thunk
   in
+  Dt.stop Prof.is_member;
   pure @@ (fst res)
 
 (* Remove a key from a map. keys must be non-empty. *)
 let remove ~socket_addr ~fname ~keys ~tp =
+  Dt.start Prof.remove;
   let open Ipcmessage_types in
   let q = {
     name = (get_id fname);
@@ -201,4 +221,5 @@ let remove ~socket_addr ~fname ~keys ~tp =
     let thunk() = translate_res @@ IPCClient.update_state_value (binary_rpc ~socket_addr) q' dummy_val in
     ipcclient_exn_wrapper thunk
   in
+  Dt.stop Prof.remove;
   pure ()

@@ -33,14 +33,14 @@ open EvalTypeUtilities
 open EvalSyntax
 
 module CU = ScillaContractUtil (ParserUtil.ParserRep) (ParserUtil.ParserRep)
-module PG = Timer.Group
 
-(* Profiler groups *)
-let pg = PG.create ~name:"eval"
+module Dt = Delta_timer
 
-(* Profiler probes *)
-let p_init_module_b = PG.add_probe pg ~name:"init-module-b" ()
-let p_init_module_e = PG.add_probe pg ~name:"init-module-e" ()
+module Prof = struct
+  open Dt
+
+  let init_module = create ~name:"Eval.init_module"
+end
 
 (***************************************************)
 (*                    Utilities                    *)
@@ -522,7 +522,7 @@ let create_cur_state_fields initcstate curcstate =
 
 (* Initialize a module with given arguments and initial balance *)
 let init_module md initargs curargs init_bal bstate elibs =
-  Timer.record p_init_module_b;
+  Dt.start Prof.init_module;
   let {libs; contr; _} = md in
   let {cparams; cfields; _} = contr in
   let%bind (initcstate, field_vals) =
@@ -531,7 +531,7 @@ let init_module md initargs curargs init_bal bstate elibs =
   (* blockchain input provided is only validated and not used here. *)
   let%bind _ = check_blockchain_entries bstate in
   let cstate = { initcstate with fields = initcstate.fields } in
-    Timer.record p_init_module_e;
+    Dt.stop Prof.init_module;
     pure (contr, cstate, curfield_vals)
 
 (*******************************************************)

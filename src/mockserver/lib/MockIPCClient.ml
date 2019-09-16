@@ -23,17 +23,14 @@ open TypeUtil
 open StateIPCIdl
 open OUnit2
 
-module PG = Timer.Group
+module Dt = Delta_timer
 
-(* Profiler groups *)
-let pg = Timer.Group.create ~name:"StateIPCTestClient"
+module Prof = struct
+  open Dt
 
-(* Profiler probes *)
-let p_fetch_b = PG.add_probe pg ~name:"fetch-b" ()
-let p_fetch_e = PG.add_probe pg ~name:"fetch-e" ()
-
-let p_update_b = PG.add_probe pg ~name:"update-b" ()
-let p_update_e = PG.add_probe pg ~name:"update-e" ()
+  let fetch = create ~name:"MockIPCClient.fetch"
+  let update = create ~name:"MockIPCClient.update"
+end
 
 module IPCClient = IPCIdl(Idl.GenClient ())
 
@@ -108,7 +105,7 @@ let binary_rpc ~sock_addr (call: Rpc.call) : Rpc.response =
 
 (* Fetch full state variable from server (no indexing). *)
 let fetch ~fname =
-  Timer.record p_fetch_b;
+  Dt.start Prof.fetch;
   let (sock_addr, fields) = assert_init () in
   let tp = match List.Assoc.find fields ~equal:(=) fname with
     | Some tp -> tp | None -> assert_failure ("StateIPCTestClient: Unable to find field " ^ fname)
@@ -125,12 +122,12 @@ let fetch ~fname =
   let res' = match res with
   | (true, res') -> decode_serialized_value (Bytes.of_string res')
   | (false, _) -> assert_failure ("StateIPCTestClient: Field " ^ fname ^ " not found on server") in
-  Timer.record p_fetch_e;
+  Dt.stop Prof.fetch;
   res'
 
 (* Update full state variable to server (no indexing). *)
 let update ~fname ~value =
-  Timer.record p_update_b;
+  Dt.start Prof.update;
   let open Ipcmessage_types in
   let (sock_addr, fields) = assert_init () in
   let tp = match List.Assoc.find fields ~equal:(=) fname with
@@ -145,7 +142,7 @@ let update ~fname ~value =
   let q' = encode_serialized_query q in
   let value' =  encode_serialized_value value in
   let res = translate_res @@ IPCClient.update_state_value (binary_rpc ~sock_addr) q' value' in
-  Timer.record p_update_b;
+  Dt.stop Prof.update;
   res
 
 let fetch_all () =

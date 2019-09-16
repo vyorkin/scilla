@@ -19,14 +19,17 @@
 open Core
 open Core_profiler.Std_offline
 open Yojson
+open OUnit2
 open Syntax
 
-module PG = Timer.Group
+module Dt = Delta_timer
 
-(* Profiler groups *)
-let pg = Timer.Group.create ~name:"main"
+module Prof = struct
+  open Dt
 
-(* Profiler probes *)
+  let main = create ~name:"Scilla_profiler.main"
+  let init_server = create ~name:"Scilla_profiler.init_server"
+end
 
 let parse_typ_wrapper t =
   match FrontEndParser.parse_type t with
@@ -117,6 +120,7 @@ let state_to_json s =
 
 (* Initialize mock server state with ~state_json_path. *)
 let init_server ~sock_addr ~state_json_path =
+  Dt.start Prof.init_server;
   let state = json_file_to_state state_json_path in
 
   let fields = List.filter_map state ~f:(fun (s, t, _) ->
@@ -129,12 +133,14 @@ let init_server ~sock_addr ~state_json_path =
       else ()
     );
   (* Find the balance from state and return it. *)
-  match List.find state ~f:(fun (fname, _, _) -> fname = ContractUtil.balance_label) with
-  | Some (_, _, balpb) ->
-      (match balpb with
-       | Ipcmessage_types.Bval (bal) -> (json_from_string (Bytes.to_string bal) |> json_to_string)
-       | _ -> failwith ("Incorrect type of " ^ ContractUtil.balance_label ^ " in state.json"))
-  | None -> failwith ("Unable to find " ^ ContractUtil.balance_label ^ " in state.json")
+  let res = match List.find state ~f:(fun (fname, _, _) -> fname = ContractUtil.balance_label) with
+    | Some (_, _, balpb) ->
+        (match balpb with
+         | Ipcmessage_types.Bval (bal) -> (json_from_string (Bytes.to_string bal) |> json_to_string)
+         | _ -> failwith ("Incorrect type of " ^ ContractUtil.balance_label ^ " in state.json"))
+    | None -> failwith ("Unable to find " ^ ContractUtil.balance_label ^ " in state.json") in
+  Dt.stop Prof.init_server;
+  res
 
 type env =
   { bin_dir : string;
@@ -159,20 +165,22 @@ let run_test env name i =
   let output_file = tmp_dir ^/ name ^ "_output_" ^ istr ^. "json" in
   let state_json_path = dir ^/ "state_" ^ istr ^. "json" in
   let balance = init_server ~sock_addr:env.sock_addr ~state_json_path in
+  let input_message = dir ^/ "message_" ^ istr ^. "json" in
+  let input_blockchain = dir ^/ "blockchain_" ^ istr ^. "json" in
+  let input = contract_dir ^/ name ^. "scilla" in
   let cli : Cli.ioFiles =
     { input_init = dir ^/ "init.json";
       input_state = "";
-      input_message = dir ^/ "message_" ^ istr ^. "json";
-      input_blockchain = dir ^/ "blockchain_" ^ istr ^. "json";
+      input_message;
+      input_blockchain;
       output = output_file;
-      input = contract_dir ^/ name ^. "scilla";
+      input;
       libdirs = [env.stdlib_dir];
       gas_limit = Stdint.Uint64.of_int 8000;
       balance = Stdint.Uint128.of_string balance;
       pp_json = true;
       ipc_address = env.sock_addr;
     } in
-  print_string ".";
   Scilla_runner.run cli
 
 let run_tests env contract_name i n =

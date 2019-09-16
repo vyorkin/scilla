@@ -1,0 +1,44 @@
+I've got some profiling results finally...
+
+Please note that the times here ignore `scilla_runner` launching overhead.
+The overhead of running it as a separate process is: 78.24ms - 50.61ms = 27.63ms
+
+I think we're interested only in top 2 rows: `StateIPCClient.fetch` and `StateIPCClient.update`.
+
+External (C++) server IPC:
+
+┌─────────────────────────────────┬───┬───────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+│ name                            │   │ count │     mean │      min │      max │    stdev │     5 %l │    95 %l │
+├─────────────────────────────────┼───┼───────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+│ StateIPCClient.fetch            │ v │    50 │  25.12ms │  24.52ms │  25.71ms │ 278.01us │  24.63ms │  25.71ms │
+│ StateIPCClient.update           │ v │    30 │   25.5ms │  24.98ms │  25.85ms │ 239.43us │  25.04ms │  25.78ms │
+│ StateService.fetch              │ v │    50 │  25.13ms │  24.52ms │  25.71ms │ 278.13us │  24.64ms │  25.71ms │
+│ StateService.update             │ v │    30 │  25.51ms │  24.98ms │  25.86ms │  239.6us │  25.05ms │  25.78ms │
+│ Eval.init_module                │ v │    50 │     39us │  25.04us │ 150.95us │  30.64us │  25.83us │ 138.72us │
+│ MockIPCClient.update            │ v │   100 │  25.16ms │   1.55ms │  29.94ms │   2.45ms │  24.91ms │   25.8ms │
+│ RunnerUtil.import_lib           │ v │    50 │   80.1us │  57.72us │ 267.01us │  41.53us │  58.55us │    187us │
+│ RunnerUtil.import_libs          │ v │    50 │ 144.85us │  97.51us │ 478.75us │  75.06us │    101us │ 314.92us │
+│ Scilla_runner.run               │ v │    50 │  41.19ms │ 529.01us │  77.44ms │  26.16ms │ 626.75us │  77.11ms │
+│ Scilla_runner.run/gas_remaining │ v │    50 │  15.58us │   5.19us │  40.86us │   5.32us │   9.71us │  17.81us │
+│ Scilla_runner.check_libs        │ v │    50 │  34.25us │  19.99us │  172.9us │  34.13us │  20.73us │ 122.63us │
+│ Scilla_profiler.init_server     │ v │    50 │  50.45ms │  34.37ms │  51.46ms │   2.36ms │  50.07ms │  51.38ms │
+└─────────────────────────────────┴───┴───────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘
+
+Mock server IPC:
+
+┌─────────────────────────────────┬───┬───────┬──────────┬─────────┬──────────┬──────────┬──────────┬──────────┐
+│ name                            │   │ count │     mean │     min │      max │    stdev │     5 %l │    95 %l │
+├─────────────────────────────────┼───┼───────┼──────────┼─────────┼──────────┼──────────┼──────────┼──────────┤
+│ StateIPCClient.fetch            │ v │    50 │  67.92us │ 31.05us │ 135.14us │  27.39us │  31.59us │ 110.15us │
+│ StateIPCClient.update           │ v │    30 │  60.34us │ 29.73us │ 133.03us │  26.79us │  30.04us │  97.82us │
+│ StateService.fetch              │ v │    50 │  68.33us │ 31.51us │ 135.75us │  27.43us │  31.92us │ 110.62us │
+│ StateService.update             │ v │    30 │  60.78us │ 30.11us │ 133.49us │   26.8us │  30.45us │  98.35us │
+│ Eval.init_module                │ v │    50 │  26.35us │ 18.15us │ 148.57us │  22.24us │  18.39us │  69.21us │
+│ MockIPCClient.update            │ v │   100 │ 169.68us │ 23.98us │  11.13ms │   1.11ms │   24.7us │  136.6us │
+│ RunnerUtil.import_lib           │ v │    50 │   59.9us │ 49.77us │ 142.31us │  20.84us │  49.78us │ 105.39us │
+│ RunnerUtil.import_libs          │ v │    50 │  95.99us │ 77.29us │ 290.78us │  37.91us │   77.5us │ 157.01us │
+│ Scilla_runner.run               │ v │    50 │ 584.13us │   365us │ 803.76us │ 121.77us │ 400.03us │ 773.11us │
+│ Scilla_runner.run/gas_remaining │ v │    50 │   3.28us │  2.27us │  32.62us │   4.39us │   2.28us │   4.34us │
+│ Scilla_runner.check_libs        │ v │    50 │  24.84us │ 12.44us │ 204.78us │  40.83us │  12.59us │ 142.59us │
+│ Scilla_profiler.init_server     │ v │    50 │ 429.81us │ 77.54us │  14.11ms │   1.98ms │  79.75us │ 485.01us │
+└─────────────────────────────────┴───┴───────┴──────────┴─────────┴──────────┴──────────┴──────────┴──────────┘

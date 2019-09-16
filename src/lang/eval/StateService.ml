@@ -2,21 +2,22 @@
   This file is part of scilla.
 
   Copyright (c) 2018 - present Zilliqa Research Pvt. Ltd.
-  
+
   scilla is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later
   version.
- 
+
   scilla is distributed in the hope that it will be useful, but WITHOUT ANY
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- 
+
   You should have received a copy of the GNU General Public License along with
   scilla.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
 open Core
+open Core_profiler.Std_offline
 open Result.Let_syntax
 open MonadUtil
 open TypeUtil
@@ -30,13 +31,25 @@ module EvalSyntax = ScillaSyntax (SR) (ER)
 
 open EvalSyntax
 
+module Dt = Delta_timer
+
+module Prof = struct
+  open Dt
+
+  let get_full_state = create ~name:"StateService.get_full_state"
+  let fetch = create ~name:"StateService.fetch"
+  let update = create ~name:"StateService.update"
+  let is_member = create ~name:"StateService.is_member"
+  let remove = create ~name:"StateService.remove"
+end
+
 type ss_field =
   {
     fname : string;
     ftyp : typ;
     fval : literal option; (* We may or may not have the value in memory. *)
   }
-type service_mode = 
+type service_mode =
   | IPC of string (* Socket address for IPC *)
   | Local
 type ss_state =
@@ -55,7 +68,7 @@ let initialize ~sm ~fields =
 (* Finalize: no more queries. *)
 let finalize () = pure ()
 
-let assert_init () = 
+let assert_init () =
   match !ss_cur_state with
   | Uninitialized -> fail0 "StateService: Uninitialized"
   | SS (sm, fields) -> pure (sm, fields)
@@ -74,9 +87,9 @@ let fetch_local ~fname ~keys fields =
     (* Recursively, index with each key and provide the indexed value. *)
     let rec recurser mlit' klist' vt' =
       (match klist' with
-        | [k] -> 
+        | [k] ->
           (* Just an assert. *)
-          if vt' <> ret_val_type 
+          if vt' <> ret_val_type
           then fail1 (sprintf "StateService: Failed indexing into map %s. Internal error." (get_id fname))
               (ER.get_loc (get_rep fname))
           else
@@ -105,8 +118,9 @@ let fetch_local ~fname ~keys fields =
           (ER.get_loc (get_rep fname))
 
 let fetch ~fname ~keys =
+  Dt.start Prof.fetch;
   let%bind (sm, fields) = assert_init() in
-  match sm with
+  let res = match sm with
   | IPC socket_addr ->
       let%bind tp = field_type fields fname in
       let%bind res = StateIPCClient.fetch ~socket_addr ~fname ~keys ~tp in
@@ -118,7 +132,9 @@ let fetch ~fname ~keys =
           (ER.get_loc (get_rep fname))
         | Some res' -> pure @@ (res, G_Load(res'))
         )
-  | Local -> fetch_local ~fname ~keys fields
+  | Local -> fetch_local ~fname ~keys fields in
+  Dt.stop Prof.fetch;
+  res
 
 let update_local ~fname ~keys vopt fields =
   let s = fields in
@@ -127,7 +143,7 @@ let update_local ~fname ~keys vopt fields =
     let rec recurser mlit' klist' vt' =
       (match klist' with
         (* we're at the last key, update literal. *)
-        | [k] -> 
+        | [k] ->
           (match vopt with
           | Some v ->
             Caml.Hashtbl.replace mlit' k v;
@@ -144,7 +160,7 @@ let update_local ~fname ~keys vopt fields =
                 (* We have more keys remaining, but no entry for "k".
                   So create an empty map for "k" and then proceed. *)
                 let mlit'' = Caml.Hashtbl.create 4 in
-                let%bind (kt'', vt'') = 
+                let%bind (kt'', vt'') =
                   (match vt' with
                   | MapType (keytype, valtype) -> pure (keytype, valtype)
                   | _ -> fail1 (sprintf "StateService: Cannot index into map %s due to non-map type" (get_id fname))
@@ -180,8 +196,9 @@ let update_local ~fname ~keys vopt fields =
           (ER.get_loc (get_rep fname))
 
 let update ~fname ~keys ~value =
+  Dt.start Prof.update;
   let%bind (sm, fields) = assert_init() in
-  match sm with
+  let res = match sm with
   | IPC socket_addr ->
     let%bind tp = field_type fields fname in
     let%bind _ = StateIPCClient.update ~socket_addr ~fname ~keys ~value ~tp in
@@ -191,35 +208,44 @@ let update ~fname ~keys ~value =
   | Local ->
     let%bind (fields', g) = update_local ~fname ~keys (Some value) fields in
     let _ = (ss_cur_state := SS(sm, fields')) in
-    pure g
+    pure g in
+  Dt.stop Prof.update;
+  res
 
 (* Is a key in a map. keys must be non-empty. *)
 let is_member ~fname ~keys =
+  Dt.start Prof.is_member;
   let%bind (sm, fields) = assert_init() in
-  match sm with
+  let res = match sm with
   | IPC socket_addr ->
     let%bind tp = field_type fields fname in
     let%bind res = StateIPCClient.is_member ~socket_addr ~fname ~keys ~tp in
     pure @@ (res, G_MapGet(List.length keys, None))
   | Local ->
     let%bind (v, _) = fetch_local ~fname ~keys fields in
-    pure @@ (Option.is_some v, G_MapGet(List.length keys, None))
+    pure @@ (Option.is_some v, G_MapGet(List.length keys, None)) in
+  Dt.stop Prof.is_member;
+  res
 
 (* Remove a key from a map. keys must be non-empty. *)
 let remove ~fname ~keys =
+  Dt.start Prof.remove;
   let%bind (sm, fields) = assert_init() in
-  match sm with
+  let res = match sm with
   | IPC socket_addr ->
     let%bind tp = field_type fields fname in
     let%bind _ = StateIPCClient.remove ~socket_addr ~fname ~keys ~tp in
     pure @@ G_MapUpdate(List.length keys, None)
-  | Local -> 
+  | Local ->
     let%bind (_, g) = update_local ~fname ~keys None fields in
     (* We don't need to update ss_cur_state because only map keys can be removed, and that's stateful. *)
-    pure @@ g
+    pure @@ g in
+  Dt.stop Prof.remove;
+  res
 
 (* Expensive operation, use with care. *)
 let get_full_state () =
+  Dt.start Prof.get_full_state;
   match !ss_cur_state with
   | Uninitialized -> fail0 "StateService: Uninitialized"
   | SS (Local, fl) ->
@@ -235,10 +261,10 @@ let get_full_state () =
       | Some v -> pure (f.fname, v)
       | None -> fail0 (sprintf "StateService: Field %s's value not found on server" f.fname)
     ) in
+    Dt.stop Prof.get_full_state;
     pure sl
 
 end (* module MakeStateService *)
 
 module StateServiceInstance = MakeStateService ()
 include StateServiceInstance
-
