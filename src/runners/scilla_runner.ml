@@ -415,8 +415,8 @@ let run (cli : Cli.ioFiles) =
       in Dt.stop Prof.run;
       res
 
-(* let () =
- *   Dt.start Prof.main;
- *   let cli = Cli.parse () in
- *   run cli;
- *   Dt.stop Prof.main; *)
+let () =
+  Dt.start Prof.main;
+  let cli = Cli.parse () in
+  run cli;
+  Dt.stop Prof.main;
