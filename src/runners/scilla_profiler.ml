@@ -19,7 +19,7 @@
 open Core
 open Core_profiler.Std_offline
 open Yojson
-open OUnit2
+(* open OUnit2 *)
 open Syntax
 
 module Dt = Delta_timer

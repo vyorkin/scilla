@@ -18,26 +18,10 @@
 
 
 open Core
-open Core_profiler.Std_offline
 open OUnit2
 open ScillaUtil.FilePathInfix
 open TestUtil
 open OUnitTest
-
-module PG = Timer.Group
-
-(* Profiler groups *)
-let pg = Timer.Group.create ~name:"test"
-
-(* Profiler probes *)
-let p_args_state_b = PG.add_probe pg ~name:"args-state-b" ()
-let p_args_state_e = PG.add_probe pg ~name:"args-state-e" ()
-
-let p_out_b = PG.add_probe pg ~name:"out-b" ()
-let p_out_e = PG.add_probe pg ~name:"out-e" ()
-
-let p_test_b = PG.add_probe pg ~name:"test-b" ()
-let p_test_e = PG.add_probe pg ~name:"test-e" ()
 
 let testsuit_gas_limit = "8000"
 let ipc_socket_addr = "/home/vyorkin/zilliqa.sock"
@@ -61,9 +45,6 @@ let rec build_contract_tests env name exit_code i n additional_libs =
       testname >::
       (* function to run scilla-runner and check exit code *)
       (fun test_ctxt ->
-        PG.reset pg;
-        StateIPCTest.reset_profiler_group ();
-        Timer.record p_test_b;
         let tests_dir = FilePath.make_relative (Sys.getcwd ()) (env.tests_dir test_ctxt) in
         let contract_dir = tests_dir ^/ "contracts" in
         let dir = tests_dir ^/ "runner" ^/ name in
@@ -134,8 +115,7 @@ let rec build_contract_tests env name exit_code i n additional_libs =
               (* Timer.record p_out_e; *)
               if env.update_gold test_ctxt && not ipc_mode
               then output_updater goldoutput_file test_name out
-              else output_verifier goldoutput_file msg (env.print_diff test_ctxt) out);
-        Timer.record p_test_e)
+              else output_verifier goldoutput_file msg (env.print_diff test_ctxt) out))
       in
       (* If this test is expected to succeed, we know that the JSONs are all "good".
        * So test both the JSON parsers, one that does validation, one that doesn't.

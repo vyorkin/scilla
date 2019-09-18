@@ -19,8 +19,6 @@
 (* This file aids Testcontracts.ml in setting up a state server
  * and initializing it with some initial data. *)
 
-val reset_profiler_group : unit -> unit
-
 (* Start a mock server (if set) at ~sock_addr and initialize its
  * state with ~state_json_path. *)
 val setup_and_initialize : start_mock_server:bool -> sock_addr:string -> state_json_path:string -> string

@@ -1,15 +1,15 @@
-{ stdenv, fetchFromGitHub, buildDunePackage, rpclib, rresult, result, ppxfind, ppx_tools, ppx_deriving, cppo }:
+{ lib, buildDunePackage, rpclib, ppxfind, ppx_deriving, cppo }:
 
 buildDunePackage rec {
   pname = "ppx_deriving_rpc";
 
   inherit (rpclib) version src;
 
-  buildInputs = [ rpclib ppx_tools ppx_deriving ppxfind cppo ];
+  buildInputs = [ ppxfind cppo ];
 
-  propagatedBuildInputs = [ result rresult ];
+  propagatedBuildInputs = [ rpclib ppx_deriving ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = "https://github.com/mirage/ocaml-rpc";
     description = "Ppx deriver for ocaml-rpc";
     license = licenses.isc;

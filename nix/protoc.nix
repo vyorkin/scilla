@@ -1,14 +1,14 @@
-{ stdenv, fetchFromGitHub, buildOcaml, ppx_deriving_protobuf }:
+{ stdenv, ocaml, fetchFromGitHub, ocamlbuild, findlib, ppx_deriving_protobuf }:
 
-buildOcaml rec {
-  name = "protoc";
+stdenv.mkDerivation rec {
+  name = "ocaml${ocaml.version}-ocaml-protoc-${version}";
   version = "1.2.0";
 
   minimumOCamlVersion = "4.02";
 
   src = fetchFromGitHub {
     owner = "mransan";
-    repo = "ocaml-${name}";
+    repo = "ocaml-protoc";
     rev = "60d2d4dd55f73830e1bed603cc44d3420430632c";
     sha256 = "1d1p8ch723z2qa9azmmnhbcpwxbpzk3imh1cgkjjq4p5jwzj8amj";
   };
@@ -22,7 +22,10 @@ buildOcaml rec {
     make bin.install
   '';
 
-  buildInputs = [ ppx_deriving_protobuf ];
+  buildInputs = [ ocaml findlib ocamlbuild ];
+  propagatedBuildInputs = [ ppx_deriving_protobuf ];
+
+  createFindlibDestdir = true;
 
   doCheck = true;
 
