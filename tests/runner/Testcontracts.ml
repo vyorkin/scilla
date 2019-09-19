@@ -200,38 +200,38 @@ let add_tests env =
       "crowdfunding" >:::(build_contract_tests env "crowdfunding" succ_code 1 6 []);
       "crowdfunding_init" >:(build_contract_init_test env succ_code "crowdfunding" false);
       "crowdfunding_proc" >:::(build_contract_tests env "crowdfunding_proc" succ_code 1 6 []);
-      "zil-game" >:::(build_contract_tests env "zil-game" succ_code 1 9 []);
-      "zil-game_init" >:(build_contract_init_test env succ_code "zil-game" false);
+      (* "zil-game" >:::(build_contract_tests env "zil-game" succ_code 1 9 []); *)
+      (* "zil-game_init" >:(build_contract_init_test env succ_code "zil-game" false); *)
       "creationtest_init" >:(build_contract_init_test env succ_code "creationtest" false);
-      "testlib2_init" >:(build_contract_init_test env succ_code "TestLib2" true);
+      (* "testlib2_init" >:(build_contract_init_test env succ_code "TestLib2" true); *)
       "cfinvoke" >:::(build_contract_tests env "cfinvoke" succ_code 1 4 []);
       "ping" >:::(build_contract_tests env "ping" succ_code 0 3 []);
       "pong" >:::(build_contract_tests env "pong" succ_code 0 3 []);
       "helloWorld" >:::(build_contract_tests env "helloWorld" succ_code 1 4 []);
       "auction" >:::(build_contract_tests env "auction" succ_code 1 8 []);
-      "mappair" >:::(build_contract_tests env "mappair" succ_code 1 7 []);
-      "bookstore" >:::(build_contract_tests env "bookstore" succ_code 1 12 []);
-      "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 1 12 []);
-      "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 21 27 []);
-      "schnorr" >:::(build_contract_tests env "schnorr" succ_code 1 3 []);
-      "ecdsa" >:::(build_contract_tests env "ecdsa" succ_code 1 4 []);
+      (* "mappair" >:::(build_contract_tests env "mappair" succ_code 1 7 []); *)
+      (* "bookstore" >:::(build_contract_tests env "bookstore" succ_code 1 12 []); *)
+      (* "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 1 12 []); *)
+      (* "nonfungible-token" >:::(build_contract_tests env "nonfungible-token" succ_code 21 27 []); *)
+      (* "schnorr" >:::(build_contract_tests env "schnorr" succ_code 1 3 []); *)
+      (* "ecdsa" >:::(build_contract_tests env "ecdsa" succ_code 1 4 []); *)
       "empty_contract" >::: (build_contract_tests env "empty" succ_code 1 1 []);
-      "fungible-token" >:::(build_contract_tests env "fungible-token" succ_code 0 8 []);
+      (* "fungible-token" >:::(build_contract_tests env "fungible-token" succ_code 0 8 []); *)
       "inplace-map" >:::(build_contract_tests env "inplace-map" succ_code 1 14 []);
-      "wallet" >:::(build_contract_tests env "wallet" succ_code 1 11 []);
+      (* "wallet" >:::(build_contract_tests env "wallet" succ_code 1 11 []); *)
       "one_msg_test" >::: (build_contract_tests env "one-msg" succ_code 1 1 []);
       "one_msg1_test" >::: (build_contract_tests env "one-msg1" succ_code 1 1 []);
-      "simple-dex" >:::(build_contract_tests env "simple-dex" succ_code 1 8 []);
-      "shogi" >::: (build_contract_tests env "shogi" succ_code 1 4 ["shogi_lib"]);
-      "shogi_proc" >::: (build_contract_tests env "shogi_proc" succ_code 1 4 ["shogi_lib"]);
+      (* "simple-dex" >:::(build_contract_tests env "simple-dex" succ_code 1 8 []); *)
+      (* "shogi" >::: (build_contract_tests env "shogi" succ_code 1 4 ["shogi_lib"]); *)
+      (* "shogi_proc" >::: (build_contract_tests env "shogi_proc" succ_code 1 4 ["shogi_lib"]); *)
       "map_key_test" >::: (build_contract_tests env "map_key_test" succ_code 1 1 []);
-      "earmarked-coin" >:::(build_contract_tests env "earmarked-coin" succ_code 1 6 []);
-      "map_corners_test" >:::(build_contract_tests env "map_corners_test" succ_code 1 18 []);
+      (* "earmarked-coin" >:::(build_contract_tests env "earmarked-coin" succ_code 1 6 []); *)
+      (* "map_corners_test" >:::(build_contract_tests env "map_corners_test" succ_code 1 18 []); *)
     ];
     "these_tests_must_FAIL" >:::[
       "helloWorld_f" >:::(build_contract_tests env "helloWorld" fail_code 5 12 []);
-      "mappair" >:::(build_contract_tests env "mappair" fail_code 8 8 []);
-      "mappair" >:::(build_contract_tests env "mappair" fail_code 12 14 []);
+      (* "mappair" >:::(build_contract_tests env "mappair" fail_code 8 8 []); *)
+      (* "mappair" >:::(build_contract_tests env "mappair" fail_code 12 14 []); *)
       "multiple_msgs_test" >::: (build_contract_tests env "multiple-msgs" fail_code 1 1 []);
       "exception-example" >::: (build_contract_tests env "exception-example" fail_code 1 2 []);
       "testlib1_init" >:(build_contract_init_test env fail_code "0x565556789012345678901234567890123456abcd" true);

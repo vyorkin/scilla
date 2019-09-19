@@ -52,7 +52,7 @@ let main =
   let checker_tests = TestChecker.checker_tests env in
   let integer256_tests = TestInteger256.integer256_tests in
   let polynomial_tests = TestPolynomial.polynomial_tests in
-  let signature_tests = TestSignatures.signature_tests env in
+  (* let signature_tests = TestSignatures.signature_tests env in *)
   (* let gas_expr_tests = TestGasExpr.Tests.add_tests env in
   let gas_contract_tests = TestGasContracts.Tests.add_tests env in *)
   let syntax_tests = TestSyntax.syntax_tests in
@@ -68,7 +68,9 @@ let main =
        * See the Makefile target "test_extipcserver". *)
       contract_tests;
       type_tests_bad; type_tests_good; exp_tests_good; exp_tests_bad;
-      pm_tests_bad; signature_tests; polynomial_tests; bech32_tests;
+      pm_tests_bad;
+      (* signature_tests; *)
+      polynomial_tests; bech32_tests;
       (*gas_expr_tests; gas_contract_tests; *)
       checker_tests; integer256_tests; syntax_tests; arith_builtin_tests;
       parser_tests;
